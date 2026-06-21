@@ -6,7 +6,7 @@ It **reuses the same signing key**, so the cert SHA-256 fingerprint is identical
 pinned in [`repo.json.template`](repo.json.template):
 
 ```
-e4bbc0829bf2b1ef674b4772407c93898253620c5bebca3b3ddb372b6863ca9b
+0bbd2d7c25bfae3a0fc1beadc21c583176c27183e9d0d559add7be3b4145a69c
 ```
 
 ## Trust model (same as the manga repo)
@@ -26,7 +26,7 @@ extension, signs with the reused key, derives `sources[]` with the in-repo stati
 ## One-time: set the four CI secrets (reusing your offline `ci.keystore`)
 
 These cannot be copied from the manga repo (GitHub secrets are write-only). Run on the machine
-that holds your offline `ci.keystore` (alias `arext`), authenticated as the repo owner:
+that holds your offline `ci.keystore` (alias `signing`), authenticated as the repo owner:
 
 ```bash
 R=Blackyfi/aniyomi-revived-anime-extensions
@@ -34,7 +34,7 @@ R=Blackyfi/aniyomi-revived-anime-extensions
 # Keystore, base64-encoded (the build decodes it back to signingkey.jks):
 base64 -w0 ci.keystore | gh secret set SIGNING_KEY -R "$R"      # macOS: base64 -i ci.keystore | ...
 
-gh secret set ALIAS              -R "$R" --body 'arext'
+gh secret set ALIAS              -R "$R" --body 'signing'
 gh secret set KEY_STORE_PASSWORD -R "$R"   # paste the manga keystore password when prompted
 gh secret set KEY_PASSWORD       -R "$R"   # paste the manga key password when prompted
 ```
@@ -74,7 +74,7 @@ An extension that installs as **trusted** (not "Untrusted") confirms the fingerp
 ```bash
 curl -s https://raw.githubusercontent.com/Blackyfi/aniyomi-revived-anime-extensions/repo/repo.json \
   | python3 -c 'import sys,json;print(json.load(sys.stdin)["meta"]["signingKeyFingerprint"])'
-# must print: e4bbc0829bf2b1ef674b4772407c93898253620c5bebca3b3ddb372b6863ca9b
+# must print: 0bbd2d7c25bfae3a0fc1beadc21c583176c27183e9d0d559add7be3b4145a69c
 ```
 
 ## Syncing future upstream (yuzono) changes
