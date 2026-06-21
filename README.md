@@ -1,3 +1,28 @@
+# Aniyomi Revived — Anime Extensions
+
+Independent **anime** extensions for [aniyomi-revived](https://github.com/Blackyfi/aniyomi-revived),
+the anime counterpart of [aniyomi-revived-extensions](https://github.com/Blackyfi/aniyomi-revived-extensions)
+(manga). Forked from [`yuzono/anime-extensions`](https://github.com/yuzono/anime-extensions)
+(Apache-2.0) and self-signed/self-published.
+
+**Add this repo in the app** — Settings → Browse → Anime extension repos → Add:
+
+```
+https://raw.githubusercontent.com/Blackyfi/aniyomi-revived-anime-extensions/repo/index.min.json
+```
+
+**Trust model:** extensions are trusted **iff** signed by this repo's single key, whose SHA-256
+fingerprint is published in [`repo.json`](repo.json.template) and equals the manga repo's key:
+`e4bbc0829bf2b1ef674b4772407c93898253620c5bebca3b3ddb372b6863ca9b`. CI is build-from-source only
+(no prebuilt artifacts). See [SIGNING_SETUP.md](SIGNING_SETUP.md) for keys/signing/CI.
+
+> Status: forked & wired up; the first CI run (after secrets are set) publishes the `repo` branch.
+
+---
+
+<details>
+<summary>Upstream (yuzono) README</summary>
+
 <div align="center">
 
 | Install on Aniyomi | Install on Anikku | Build | Discord |
@@ -80,3 +105,5 @@ This project is not affiliated with Anikku/Aniyomi. Don't ask for help about the
 official support means of Anikku/Aniyomi. All credits to the codebase goes to the original contributors.
 
 The developer of this application does not have any affiliation with the content providers available.
+
+</details>
