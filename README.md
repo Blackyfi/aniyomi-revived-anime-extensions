@@ -13,7 +13,7 @@ https://raw.githubusercontent.com/Blackyfi/aniyomi-revived-anime-extensions/repo
 
 **Trust model:** extensions are trusted **iff** signed by this repo's single key, whose SHA-256
 fingerprint is published in [`repo.json`](repo.json.template) and equals the manga repo's key:
-`e4bbc0829bf2b1ef674b4772407c93898253620c5bebca3b3ddb372b6863ca9b`. CI is build-from-source only
+`056bf4bb4e227e93ca738622c1bf96ba3fa75e568a04d396c2aabd3d4bb26fb8`. CI is build-from-source only
 (no prebuilt artifacts). See [SIGNING_SETUP.md](SIGNING_SETUP.md) for keys/signing/CI.
 
 > Status: forked & wired up; the first CI run (after secrets are set) publishes the `repo` branch.
