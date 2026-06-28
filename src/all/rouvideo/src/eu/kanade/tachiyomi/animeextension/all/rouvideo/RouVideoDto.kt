@@ -231,7 +231,10 @@ internal object RouVideoDto {
 
     @Serializable
     data class VideoData(
-        val video: VideoObject,
+        // Nullable: some responses (removed/geo-blocked/premium videos) omit this
+        // field entirely. Decoding must not throw; videoListParse treats null as
+        // "no playable video" so the player shows a clean message instead of crashing.
+        val video: VideoObject? = null,
     ) {
         @Serializable
         data class VideoObject(
