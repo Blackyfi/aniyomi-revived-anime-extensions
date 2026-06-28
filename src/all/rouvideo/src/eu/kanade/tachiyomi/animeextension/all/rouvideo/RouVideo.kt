@@ -456,6 +456,7 @@ class RouVideo(
     override fun videoListParse(response: Response): List<Video> {
         val jsonStr = response.body.string()
         val data = json.decodeFromString<RouVideoDto.VideoData>(jsonStr).video
+            ?: return emptyList()
 
         return playlistUtils.extractFromHls(
             playlistUrl = data.videoUrl,
