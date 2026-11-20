@@ -1,135 +1,257 @@
 package eu.kanade.tachiyomi.animeextension.ar.witanime
 
-import android.util.Base64
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceScreen
 import aniyomi.lib.dailymotionextractor.DailymotionExtractor
 import aniyomi.lib.doodextractor.DoodExtractor
+import aniyomi.lib.filemoonextractor.FilemoonExtractor
+import aniyomi.lib.mixdropextractor.MixDropExtractor
 import aniyomi.lib.mp4uploadextractor.Mp4uploadExtractor
 import aniyomi.lib.okruextractor.OkruExtractor
+import aniyomi.lib.streamtapeextractor.StreamTapeExtractor
+import aniyomi.lib.streamwishextractor.StreamWishExtractor
+import aniyomi.lib.uqloadextractor.UqloadExtractor
 import aniyomi.lib.vidbomextractor.VidBomExtractor
+import aniyomi.lib.vidhideextractor.VidHideExtractor
+import aniyomi.lib.vkextractor.VkExtractor
+import aniyomi.lib.voeextractor.VoeExtractor
 import eu.kanade.tachiyomi.animeextension.ar.witanime.extractors.SharedExtractor
 import eu.kanade.tachiyomi.animeextension.ar.witanime.extractors.SoraPlayExtractor
 import eu.kanade.tachiyomi.animesource.ConfigurableAnimeSource
+import eu.kanade.tachiyomi.animesource.model.AnimeFilter
 import eu.kanade.tachiyomi.animesource.model.AnimeFilterList
+import eu.kanade.tachiyomi.animesource.model.AnimesPage
 import eu.kanade.tachiyomi.animesource.model.SAnime
 import eu.kanade.tachiyomi.animesource.model.SEpisode
 import eu.kanade.tachiyomi.animesource.model.Video
-import eu.kanade.tachiyomi.animesource.online.ParsedAnimeHttpSource
+import eu.kanade.tachiyomi.animesource.online.AnimeHttpSource
 import eu.kanade.tachiyomi.network.GET
+import eu.kanade.tachiyomi.network.POST
+import eu.kanade.tachiyomi.network.awaitSuccess
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.utils.getPreferencesLazy
-import keiyoushi.utils.parallelCatchingFlatMapBlocking
-import keiyoushi.utils.useAsJsoup
+import keiyoushi.utils.parallelCatchingFlatMap
+import keiyoushi.utils.parseAs
+import kotlinx.serialization.Serializable
+import okhttp3.Headers
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Response
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 
 class WitAnime :
-    ParsedAnimeHttpSource(),
+    AnimeHttpSource(),
     ConfigurableAnimeSource {
 
     override val name = "WIT ANIME"
 
-    override val baseUrl = "https://witanime.cyou"
+    override val baseUrl = "https://witanime.site"
 
     override val lang = "ar"
 
     override val supportsLatest = true
 
-    override fun headersBuilder() = super.headersBuilder().add("Referer", baseUrl)
+    override fun headersBuilder() = super.headersBuilder().add("Referer", "$baseUrl/")
 
     private val preferences by getPreferencesLazy()
 
     // ============================== Popular ===============================
-    override fun popularAnimeSelector() = "div.anime-list-content div.row div.anime-card-poster div.ehover6"
+    override fun popularAnimeRequest(page: Int) = searchAnimeRequest(page, "", AnimeFilterList())
 
-    override fun popularAnimeNextPageSelector() = "ul.pagination a.next"
+    override fun popularAnimeParse(response: Response) = parseCardPage(response.asJsoup())
 
-    override fun popularAnimeRequest(page: Int) = GET("$baseUrl/قائمة-الانمي/page/$page")
+    // =============================== Latest ===============================
+    // The site has no paged list of new episodes, only the section on the home page.
+    override fun latestUpdatesRequest(page: Int) = GET(baseUrl, headers)
 
-    override fun popularAnimeFromElement(element: Element) = SAnime.create().apply {
-        element.selectFirst("a")!!.run {
-            attr("href").takeUnless { it.contains("javascript:") }
-                ?: getEncodedUrl() // Get base64-encoded URLs
-        }.also { setUrlWithoutDomain(it) }
+    override fun latestUpdatesParse(response: Response): AnimesPage {
+        val section = response.asJsoup().select("section")
+            .firstOrNull { it.selectFirst("h2")?.text()?.contains("أحدث الحلقات") == true }
+            ?: return AnimesPage(emptyList(), false)
 
-        element.selectFirst("img")!!.also {
-            title = it.attr("alt")
-            thumbnail_url = it.attr("abs:src")
+        val animes = section.select("a[href*=/watch/]").mapNotNull { link ->
+            val slug = link.attr("href").toHttpUrl().pathSegments.getOrNull(1) ?: return@mapNotNull null
+            SAnime.create().apply {
+                url = "/anime/$slug"
+                title = link.selectFirst("h3")?.text() ?: link.selectFirst("img")?.attr("alt").orEmpty()
+                thumbnail_url = link.selectFirst("img")?.attr("abs:src")
+            }
+        }.distinctBy { it.url }
+
+        return AnimesPage(animes, false)
+    }
+
+    // =============================== Search ===============================
+    override fun searchAnimeRequest(page: Int, query: String, filters: AnimeFilterList) = when {
+        query.isNotBlank() -> {
+            val url = "$baseUrl/search".toHttpUrl().newBuilder()
+                .addQueryParameter("q", query.trim())
+                .addQueryParameter("page", page.toString())
+                .build()
+            GET(url, headers)
+        }
+        else -> {
+            val section = filters.firstInstanceOrNull<SectionFilter>()?.toUriPart() ?: "browse"
+            val sort = filters.firstInstanceOrNull<SortFilter>()?.toUriPart() ?: "Most Viewed"
+            val url = "$baseUrl/$section${pagePath(page)}".toHttpUrl().newBuilder()
+                .addQueryParameter("sort", sort)
+                .build()
+            GET(url, headers)
         }
     }
 
-    // =============================== Latest ===============================
-    override fun latestUpdatesRequest(page: Int) = GET("$baseUrl/episode/page/$page/")
+    override fun searchAnimeParse(response: Response) = parseCardPage(response.asJsoup())
 
-    override fun latestUpdatesSelector() = popularAnimeSelector()
-    override fun latestUpdatesNextPageSelector() = popularAnimeNextPageSelector()
-    override fun latestUpdatesFromElement(element: Element) = popularAnimeFromElement(element)
+    override fun getFilterList() = AnimeFilterList(
+        AnimeFilter.Header("الفلاتر لا تعمل مع البحث بالاسم"),
+        SectionFilter(),
+        SortFilter(),
+    )
 
-    // =============================== Search ===============================
-    override fun searchAnimeRequest(page: Int, query: String, filters: AnimeFilterList) = GET("$baseUrl/?search_param=animes&s=$query")
+    private class SectionFilter :
+        UriPartFilter(
+            "القسم",
+            arrayOf(
+                Pair("الأنمي", "browse"),
+                Pair("الأفلام", "movies"),
+            ),
+        )
 
-    override fun searchAnimeFromElement(element: Element) = popularAnimeFromElement(element)
-    override fun searchAnimeNextPageSelector() = popularAnimeNextPageSelector()
-    override fun searchAnimeSelector() = popularAnimeSelector()
+    private class SortFilter :
+        UriPartFilter(
+            "الترتيب",
+            arrayOf(
+                Pair("الأكثر مشاهدة", "Most Viewed"),
+                Pair("الأعلى تقييمًا", "Top Rated"),
+                Pair("A-Z", "A-Z"),
+                Pair("Z-A", "Z-A"),
+            ),
+        )
+
+    private open class UriPartFilter(displayName: String, private val vals: Array<Pair<String, String>>) : AnimeFilter.Select<String>(displayName, vals.map { it.first }.toTypedArray()) {
+        fun toUriPart() = vals[state].second
+    }
 
     // =========================== Anime Details ============================
-    override fun animeDetailsParse(document: Document) = SAnime.create().apply {
-        val doc = getRealDoc(document)
+    override fun animeDetailsParse(response: Response) = SAnime.create().apply {
+        val document = response.asJsoup()
+        val info = document.selectFirst("h1")!!.parent()!!
 
-        thumbnail_url = doc.selectFirst("img.thumbnail")!!.attr("src")
-        title = doc.selectFirst("h1.anime-details-title")!!.text()
-        // Genres + useful info
-        genre = doc.select("ul.anime-genres > li > a, div.anime-info > a").eachText().joinToString()
+        title = info.selectFirst("h1")!!.text()
+        thumbnail_url = document.selectFirst("meta[property=og:image]")?.attr("content")
+        genre = info.select("span.rounded-full").eachText().joinToString()
+
+        val fields = info.select("div.grid > div").associate {
+            it.selectFirst("span")?.text().orEmpty() to it.selectFirst("p")?.text().orEmpty()
+        }
+        author = fields["الاستوديو"]
+
+        val badges = info.select("div.mb-4 > span").eachText()
+        status = when {
+            badges.any { it.contains("مستمر") || it.contains("يعرض") } -> SAnime.ONGOING
+            badges.any { it.contains("مكتمل") || it.contains("منتهي") } -> SAnime.COMPLETED
+            else -> SAnime.UNKNOWN
+        }
 
         description = buildString {
-            // Additional info
-            doc.select("div.anime-info").eachText().forEach {
-                append("$it\n")
-            }
-            // Description
-            doc.selectFirst("p.anime-story")?.text()?.also {
-                append("\n$it")
-            }
-        }
-
-        doc.selectFirst("div.anime-info:contains(حالة الأنمي)")?.text()?.also {
-            status = when {
-                it.contains("يعرض الان", true) -> SAnime.ONGOING
-                it.contains("مكتمل", true) -> SAnime.COMPLETED
-                else -> SAnime.UNKNOWN
-            }
-        }
+            info.selectFirst("p.leading-relaxed")?.text()?.let { append(it).append("\n\n") }
+            info.selectFirst("h1 + p")?.text()?.takeIf(String::isNotBlank)?.let { append("الاسم: $it\n") }
+            badges.firstOrNull()?.let { append("النوع: $it\n") }
+            fields.filterValues(String::isNotBlank).forEach { (key, value) -> append("$key: $value\n") }
+        }.trim()
     }
 
     // ============================== Episodes ==============================
-    override fun episodeListParse(response: Response) = getRealDoc(response.asJsoup())
-        .select(episodeListSelector())
-        .map(::episodeFromElement)
-        .reversed()
+    override fun episodeListParse(response: Response): List<SEpisode> {
+        val document = response.asJsoup()
 
-    override fun episodeListSelector() = "div.ehover6 > div.episodes-card-title > h3 a"
+        // Movies have a single watch page at /watch/movie/<slug>.
+        if (response.request.url.pathSegments.firstOrNull() == "movie") {
+            val link = document.selectFirst("a[href*=/watch/movie/]") ?: return emptyList()
+            return listOf(
+                SEpisode.create().apply {
+                    setUrlWithoutDomain(link.attr("abs:href"))
+                    name = "الفيلم"
+                    episode_number = 1F
+                },
+            )
+        }
 
-    override fun episodeFromElement(element: Element) = SEpisode.create().apply {
-        setUrlWithoutDomain(element.getEncodedUrl())
-        name = element.text()
-        episode_number = name.substringAfterLast(" ").toFloatOrNull() ?: 0F
+        // Each episode is linked twice (thumbnail list and number grid), so keep one per URL.
+        val slug = response.request.url.pathSegments.getOrNull(1) ?: return emptyList()
+        return document.select("a[href*=/watch/$slug/]")
+            .distinctBy { it.attr("href") }
+            .mapNotNull { link ->
+                val number = link.attr("href").substringAfterLast("/").toFloatOrNull()
+                    ?: return@mapNotNull null
+                SEpisode.create().apply {
+                    setUrlWithoutDomain(link.attr("abs:href"))
+                    name = "الحلقة ${number.toInt()}"
+                    episode_number = number
+                }
+            }
+            .sortedByDescending { it.episode_number }
     }
 
     // ============================ Video Links =============================
-    override fun videoListParse(response: Response): List<Video> {
-        val document = response.asJsoup()
-        return document.select("ul#episode-servers li a")
-            .distinctBy { it.text().substringBefore(" -") } // remove duplicates by server name
-            .parallelCatchingFlatMapBlocking {
-                val url = it.attr("data-url")
-                    .takeUnless(String::isBlank)
-                    ?.let { String(Base64.decode(it, Base64.DEFAULT)) }
-                    ?: it.getEncodedUrl()
+    // The watch page loads its servers with a POST to "<episode>/sources". Each server
+    // has a token: POST /watch/stream-source/<token> unlocks it, then
+    // /watch/stream-gate/<token> leads to the host's embed page.
+    override suspend fun getVideoList(episode: SEpisode): List<Video> {
+        val pageUrl = baseUrl + episode.url
+        val document = client.newCall(GET(pageUrl, headers)).awaitSuccess().asJsoup()
+        val csrf = document.selectFirst("meta[name=csrf-token]")?.attr("content")
+            ?: return emptyList()
+        val sourcesPath = SOURCES_URL_REGEX.find(document.html())?.groupValues?.get(1)
+            ?.replace("\\/", "/")
+            ?: "${episode.url}/sources"
 
-                extractVideos(url)
+        val apiHeaders = headersBuilder()
+            .set("Referer", pageUrl)
+            .add("Origin", baseUrl)
+            .add("Accept", "application/json")
+            .add("X-CSRF-TOKEN", csrf)
+            .build()
+
+        val manifest = client.newCall(POST(baseUrl + sourcesPath, apiHeaders)).awaitSuccess()
+            .parseAs<SourcesDto>()
+
+        val servers = manifest.players.flatMap { (quality, list) -> list.map { quality to it } }
+            .filter { (_, server) -> TOKEN_REGEX.matches(server.token) }
+
+        return servers.parallelCatchingFlatMap { (quality, server) ->
+            val name = buildString {
+                append(server.label ?: "WitAnime")
+                append(" - ").append(quality)
+                if (server.version == "dub") append(" - مدبلج")
             }
+            val embedUrl = resolveServer(server.token, apiHeaders) ?: return@parallelCatchingFlatMap emptyList()
+            extractVideos(embedUrl, "$name: ")
+        }
+    }
+
+    private suspend fun resolveServer(token: String, apiHeaders: Headers): String? {
+        val source = client.newCall(POST("$baseUrl/watch/stream-source/$token", apiHeaders)).awaitSuccess()
+            .parseAs<StreamSourceDto>()
+
+        val gateHeaders = headersBuilder().apply {
+            if (source.referrerPolicy == "origin") set("Referer", "$baseUrl/") else removeAll("Referer")
+            add("Sec-Fetch-Dest", "iframe")
+        }.build()
+
+        val gate = client.newCall(GET("$baseUrl/watch/stream-gate/$token", gateHeaders)).awaitSuccess()
+        val finalUrl = gate.request.url
+        if (finalUrl.host != baseUrl.toHttpUrl().host) {
+            gate.close()
+            return finalUrl.toString()
+        }
+
+        val document = gate.asJsoup()
+        return document.selectFirst("iframe[src]")?.attr("abs:src")
+            ?: document.selectFirst("meta[http-equiv=refresh]")?.attr("content")
+                ?.substringAfter("url=", "")?.takeIf(String::isNotBlank)
+            ?: document.selectFirst("source[src], video[src]")?.attr("abs:src")
+            ?: GATE_URL_REGEX.find(document.html())?.groupValues?.get(1)
     }
 
     private val soraPlayExtractor by lazy { SoraPlayExtractor(client) }
@@ -139,76 +261,37 @@ class WitAnime :
     private val okruExtractor by lazy { OkruExtractor(client) }
     private val mp4uploadExtractor by lazy { Mp4uploadExtractor(client) }
     private val vidBomExtractor by lazy { VidBomExtractor(client) }
+    private val streamWishExtractor by lazy { StreamWishExtractor(client, headers) }
+    private val filemoonExtractor by lazy { FilemoonExtractor(client) }
+    private val vidHideExtractor by lazy { VidHideExtractor(client, headers) }
+    private val voeExtractor by lazy { VoeExtractor(client, headers) }
+    private val mixDropExtractor by lazy { MixDropExtractor(client) }
+    private val streamTapeExtractor by lazy { StreamTapeExtractor(client) }
+    private val uqloadExtractor by lazy { UqloadExtractor(client) }
+    private val vkExtractor by lazy { VkExtractor(client, headers) }
 
-    private suspend fun extractVideos(url: String): List<Video> = when {
-        url.contains("yonaplay") -> extractFromMulti(url)
-
-        url.contains("soraplay") -> {
-            when {
-                url.contains("/mirror") -> extractFromMulti(url)
-                else -> soraPlayExtractor.videosFromUrl(url, headers)
-            }
-        }
-
-        url.contains("dood") -> {
-            doodExtractor.videoFromUrl(url, "Dood mirror")
-                ?.let(::listOf)
-        }
-
-        url.contains("4shared") -> {
-            sharedExtractor.videosFromUrl(url)
-                ?.let(::listOf)
-        }
-
-        url.contains("dropbox") -> {
-            listOf(Video(url, "Dropbox mirror", url))
-        }
-
-        url.contains("dailymotion") -> {
-            dailymotionExtractor.videosFromUrl(url)
-        }
-
-        url.contains("ok.ru") -> {
-            okruExtractor.videosFromUrl(url)
-        }
-
-        url.contains("mp4upload.com") -> {
-            mp4uploadExtractor.videosFromUrl(url, headers)
-        }
-
-        VIDBOM_REGEX.containsMatchIn(url) -> {
-            vidBomExtractor.videosFromUrl(url)
-        }
-
+    private suspend fun extractVideos(url: String, prefix: String): List<Video> = when {
+        url.contains("soraplay") -> soraPlayExtractor.videosFromUrl(url, headers)
+        url.contains("dood") -> doodExtractor.videoFromUrl(url, "${prefix}Dood")?.let(::listOf)
+        url.contains("4shared") -> sharedExtractor.videosFromUrl(url)?.let(::listOf)
+        url.contains("dailymotion") -> dailymotionExtractor.videosFromUrl(url, prefix)
+        url.contains("ok.ru") -> okruExtractor.videosFromUrl(url, prefix)
+        url.contains("mp4upload") -> mp4uploadExtractor.videosFromUrl(url, headers, prefix)
+        VIDBOM_REGEX.containsMatchIn(url) -> vidBomExtractor.videosFromUrl(url)
+        STREAMWISH_REGEX.containsMatchIn(url) -> streamWishExtractor.videosFromUrl(url, prefix)
+        FILEMOON_REGEX.containsMatchIn(url) -> filemoonExtractor.videosFromUrl(url, prefix = prefix)
+        VIDHIDE_REGEX.containsMatchIn(url) -> vidHideExtractor.videosFromUrl(url) { "$prefix$it" }
+        url.contains("voe") -> voeExtractor.videosFromUrl(url, prefix)
+        url.contains("mixdrop") -> mixDropExtractor.videosFromUrl(url, prefix = prefix)
+        url.contains("streamtape") -> streamTapeExtractor.videosFromUrl(url, "${prefix}Streamtape")
+        url.contains("uqload") -> uqloadExtractor.videosFromUrl(url, prefix)
+        url.contains("vk.com") || url.contains("vkvideo") -> vkExtractor.videosFromUrl(url, prefix)
+        url.substringBefore("?").let { it.endsWith(".m3u8") || it.endsWith(".mp4") } ->
+            listOf(Video(url, "${prefix}Direct", url, headers))
         else -> null
     } ?: emptyList()
 
-    private fun extractFromMulti(url: String): List<Video> {
-        val newHeaders = when {
-            url.contains("soraplay") ->
-                super.headersBuilder().set("referer", "https://yonaplay.org").build()
-
-            else -> headers
-        }
-        val doc = client.newCall(GET(url, newHeaders)).execute()
-            .useAsJsoup()
-        return doc.select(".OD li").parallelCatchingFlatMapBlocking { element ->
-            val videoUrl = element.attr("onclick").substringAfter("go_to_player('")
-                .substringBefore("')")
-                .let {
-                    when {
-                        it.startsWith("https:") -> it
-                        else -> "https:$it"
-                    }
-                }
-
-            extractVideos(videoUrl)
-        }
-    }
-
-    override fun videoListSelector() = throw UnsupportedOperationException()
-    override fun videoFromElement(element: Element) = throw UnsupportedOperationException()
-    override fun videoUrlParse(document: Document) = throw UnsupportedOperationException()
+    override fun videoListParse(response: Response): List<Video> = throw UnsupportedOperationException()
 
     override fun List<Video>.sort(): List<Video> {
         val quality = preferences.getString(PREF_QUALITY_KEY, PREF_QUALITY_DEFAULT)!!
@@ -226,34 +309,60 @@ class WitAnime :
             entryValues = PREF_QUALITY_VALUES
             setDefaultValue(PREF_QUALITY_DEFAULT)
             summary = "%s"
-
-            setOnPreferenceChangeListener { _, newValue ->
-                val selected = newValue as String
-                val index = findIndexOfValue(selected)
-                val entry = entryValues[index] as String
-                preferences.edit().putString(key, entry).commit()
-            }
         }.also(screen::addPreference)
     }
 
     // ============================= Utilities ==============================
-    private fun getRealDoc(document: Document): Document = document.selectFirst("div.anime-page-link a")?.let {
-        client.newCall(GET(it.attr("href"), headers)).execute().asJsoup()
-    } ?: document
+    private fun pagePath(page: Int) = if (page > 1) "/page/$page" else ""
 
-    private fun Element.getEncodedUrl() = attr("onclick")
-        .substringAfter("'")
-        .substringBefore("'")
-        .let { String(Base64.decode(it, Base64.DEFAULT)) }
+    private fun parseCardPage(document: Document): AnimesPage {
+        val cards = document.select("div.grid > div[data-preview-card] > a[href]")
+        val animes = cards.map(::cardToAnime).distinctBy { it.url }
+        // The movies list pages with Livewire buttons instead of links, but always shows full pages.
+        val hasNext = document.selectFirst("a[rel=next]") != null ||
+            (document.location().contains("/movies") && cards.size >= MOVIES_PAGE_SIZE)
+        return AnimesPage(animes, hasNext)
+    }
+
+    private fun cardToAnime(link: Element) = SAnime.create().apply {
+        setUrlWithoutDomain(link.attr("abs:href"))
+        val image = link.selectFirst("img")
+        title = link.selectFirst("h3")?.text() ?: image?.attr("alt").orEmpty()
+        thumbnail_url = image?.attr("abs:src")
+    }
+
+    private inline fun <reified T> AnimeFilterList.firstInstanceOrNull(): T? = filterIsInstance<T>().firstOrNull()
+
+    @Serializable
+    class SourcesDto(val players: Map<String, List<ServerDto>> = emptyMap())
+
+    @Serializable
+    class ServerDto(
+        val token: String,
+        val label: String? = null,
+        val version: String? = null,
+        val lang: String? = null,
+    )
+
+    @Serializable
+    class StreamSourceDto(val referrerPolicy: String? = null)
 
     companion object {
-        // From TukTukCinema(AR)
-        private val VIDBOM_REGEX by lazy { Regex("//v[aie]d[bp][aoe]?m") }
+        private val SOURCES_URL_REGEX = Regex("""sourcesUrl:\s*'([^']+)'""")
+        private val TOKEN_REGEX = Regex("^[a-f0-9]{64}$")
+        private val GATE_URL_REGEX = Regex("""location(?:\.href)?\s*=\s*["'](https?://[^"']+)""")
+
+        private val VIDBOM_REGEX = Regex("//v[aie]d[bp][aoe]?m")
+        private val STREAMWISH_REGEX = Regex("streamwish|wishfast|swdyu|sfastwish|strwish|wishembed|hgplaycdn|playerwish")
+        private val FILEMOON_REGEX = Regex("filemoon|moonplayer|kerapoxy|smdfs")
+        private val VIDHIDE_REGEX = Regex("vidhide|filelions|vid-guard|dhtpre|dlions|mivalyo")
+
+        private const val MOVIES_PAGE_SIZE = 18
 
         private const val PREF_QUALITY_KEY = "preferred_quality"
         private const val PREF_QUALITY_TITLE = "Preferred quality"
         private const val PREF_QUALITY_DEFAULT = "1080"
-        private val PREF_QUALITY_ENTRIES = arrayOf("1080p", "720p", "480p", "380p", "360p", "240p")
+        private val PREF_QUALITY_ENTRIES = arrayOf("1080p", "720p", "480p", "360p")
         private val PREF_QUALITY_VALUES by lazy {
             PREF_QUALITY_ENTRIES.map { it.substringBefore("p") }.toTypedArray()
         }
