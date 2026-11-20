@@ -92,6 +92,8 @@ jobs:
     timeout-minutes: 30
     if: ${{ toJson(fromJson(needs.prepare.outputs.matrix).chunk) != '[]' }}
     strategy:
+      # One broken extension shouldn't stop the others from being built and published.
+      fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - name: Checkout ${{ github.ref_name }} branch
@@ -150,7 +152,12 @@ jobs:
   publish:
     name: Publish extension repo
     needs: [prepare, build]
-    if: always() && github.repository == 'Blackyfi/aniyomi-revived-anime-extensions'
+    # Publishes what was built even if a chunk failed: merge-repo.py only replaces
+    # extensions that have a new build, and keeps the published ones for the rest.
+    if: >-
+      !cancelled()
+      && github.repository == 'Blackyfi/aniyomi-revived-anime-extensions'
+      && needs.prepare.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
