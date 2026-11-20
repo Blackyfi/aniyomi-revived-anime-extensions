@@ -9,9 +9,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeOnsen",
-        "lang": "all",
         "id": "8542735178285060053",
+        "lang": "all",
+        "name": "AnimeOnsen",
         "baseUrl": "https://www.animeonsen.xyz",
         "versionId": 1
       }
@@ -20,16 +20,16 @@
   {
     "name": "Aniyomi: Animetsu",
     "pkg": "eu.kanade.tachiyomi.animeextension.all.animetsu",
-    "apk": "aniyomi-all.animetsu-v14.6.apk",
+    "apk": "aniyomi-all.animetsu-v14.7.apk",
     "lang": "all",
-    "code": 6,
-    "version": "14.6",
+    "code": 7,
+    "version": "14.7",
     "nsfw": 1,
     "sources": [
       {
-        "name": "Animetsu",
-        "lang": "all",
         "id": "3135577129954186978",
+        "lang": "all",
+        "name": "Animetsu",
         "baseUrl": "",
         "versionId": 1
       }
@@ -55,10 +55,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeXin",
+        "id": "4620219025406449669",
         "lang": "all",
-        "id": "1301859497511610909",
-        "baseUrl": "",
+        "name": "AnimeXin",
+        "baseUrl": "https://animexin.dev",
         "versionId": 1
       }
     ]
@@ -73,9 +73,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AniZone",
-        "lang": "all",
         "id": "954848840440936266",
+        "lang": "all",
+        "name": "AniZone",
         "baseUrl": "https://anizone.to",
         "versionId": 1
       }
@@ -91,10 +91,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "ChineseAnime",
-        "lang": "all",
         "id": "8639880285552928628",
-        "baseUrl": "",
+        "lang": "all",
+        "name": "ChineseAnime",
+        "baseUrl": "https://www.chineseanime.vip",
         "versionId": 1
       }
     ]
@@ -109,9 +109,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Debrid Index",
-        "lang": "all",
         "id": "824133852049869443",
+        "lang": "all",
+        "name": "Debrid Index",
         "baseUrl": "https://torrentio.strem.fun",
         "versionId": 1
       }
@@ -127,9 +127,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Google Drive",
+        "id": "4222017068256633289",
         "lang": "all",
-        "id": "1634509943585349172",
+        "name": "Google Drive",
         "baseUrl": "",
         "versionId": 1
       }
@@ -145,9 +145,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "GoogleDriveIndex",
-        "lang": "all",
         "id": "7558489246571085102",
+        "lang": "all",
+        "name": "GoogleDriveIndex",
         "baseUrl": "",
         "versionId": 1
       }
@@ -163,9 +163,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Hentai Torrent (Torrent)",
-        "lang": "all",
         "id": "5093529078954574163",
+        "lang": "all",
+        "name": "Hentai Torrent (Torrent)",
         "baseUrl": "https://www.hentaitorrents.com",
         "versionId": 1
       }
@@ -191,9 +191,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "JavGG",
-        "lang": "all",
         "id": "3378993382379910095",
+        "lang": "all",
+        "name": "JavGG",
         "baseUrl": "https://javgg.net",
         "versionId": 1
       }
@@ -209,9 +209,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Jav Guru",
-        "lang": "all",
         "id": "8546813608934181796",
+        "lang": "all",
+        "name": "Jav Guru",
         "baseUrl": "https://jav.guru",
         "versionId": 1
       }
@@ -237,10 +237,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "LMAnime",
-        "lang": "all",
         "id": "7296222662412524790",
-        "baseUrl": "",
+        "lang": "all",
+        "name": "LMAnime",
+        "baseUrl": "https://lmanime.com",
         "versionId": 1
       }
     ]
@@ -255,9 +255,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "MissAV",
-        "lang": "all",
         "id": "168969881246615628",
+        "lang": "all",
+        "name": "MissAV",
         "baseUrl": "",
         "versionId": 1
       }
@@ -283,9 +283,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Newgrounds",
-        "lang": "all",
         "id": "1105406593306973475",
+        "lang": "all",
+        "name": "Newgrounds",
         "baseUrl": "https://www.newgrounds.com",
         "versionId": 1
       }
@@ -311,9 +311,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "PTorrent (Torrent)",
-        "lang": "all",
         "id": "2514899426758091629",
+        "lang": "all",
+        "name": "PTorrent (Torrent)",
         "baseUrl": "https://www.ptorrents.com",
         "versionId": 1
       }
@@ -329,30 +329,30 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "肉視頻",
-        "lang": "all",
         "id": "7323052797979930552",
+        "lang": "all",
+        "name": "肉視頻",
         "baseUrl": "https://rou.video/home",
         "versionId": 1
       },
       {
-        "name": "肉視頻",
-        "lang": "zh",
         "id": "6055459097979921364",
+        "lang": "zh",
+        "name": "肉視頻",
         "baseUrl": "https://rou.video/home",
         "versionId": 1
       },
       {
-        "name": "肉視頻",
-        "lang": "en",
         "id": "1757861758959207324",
+        "lang": "en",
+        "name": "肉視頻",
         "baseUrl": "https://rou.video/home",
         "versionId": 1
       },
       {
-        "name": "肉視頻",
-        "lang": "vi",
         "id": "8210438569455151012",
+        "lang": "vi",
+        "name": "肉視頻",
         "baseUrl": "https://rou.video/home",
         "versionId": 1
       }
@@ -368,9 +368,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "name",
+        "id": "7409266434239021230",
         "lang": "all",
-        "id": "4610079748240348877",
+        "name": "Shabakaty Cinemana",
         "baseUrl": "https://cinemana.shabakaty.com",
         "versionId": 1
       }
@@ -384,36 +384,7 @@
     "code": 18,
     "version": "14.18",
     "nsfw": 0,
-    "sources": [
-      {
-        "name": "StreamingUnity (${showType.replaceFirstChar { it.uppercaseChar() }})",
-        "lang": "en",
-        "id": "8604561359146108632",
-        "baseUrl": "",
-        "versionId": 1
-      },
-      {
-        "name": "StreamingUnity (${showType.replaceFirstChar { it.uppercaseChar() }})",
-        "lang": "it",
-        "id": "1431225600116249438",
-        "baseUrl": "",
-        "versionId": 1
-      },
-      {
-        "name": "StreamingUnity (${showType.replaceFirstChar { it.uppercaseChar() }})",
-        "lang": "en",
-        "id": "8604561359146108632",
-        "baseUrl": "",
-        "versionId": 1
-      },
-      {
-        "name": "StreamingUnity (${showType.replaceFirstChar { it.uppercaseChar() }})",
-        "lang": "it",
-        "id": "1431225600116249438",
-        "baseUrl": "",
-        "versionId": 1
-      }
-    ]
+    "sources": []
   },
   {
     "name": "Aniyomi: Stremio",
@@ -425,9 +396,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Stremio",
-        "lang": "all",
         "id": "8425771932667600381",
+        "lang": "all",
+        "name": "Stremio",
         "baseUrl": "",
         "versionId": 1
       }
@@ -443,9 +414,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Subsplease",
-        "lang": "all",
         "id": "8766955949256845198",
+        "lang": "all",
+        "name": "Subsplease",
         "baseUrl": "https://subsplease.org",
         "versionId": 1
       }
@@ -471,9 +442,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Torrentio (Torrent / Debrid)",
-        "lang": "all",
         "id": "3688044905832724625",
+        "lang": "all",
+        "name": "Torrentio (Torrent / Debrid)",
         "baseUrl": "https://torrentio.strem.fun",
         "versionId": 1
       }
@@ -489,9 +460,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Torrentio Anime (Torrent / Debrid)",
-        "lang": "all",
         "id": "7490206640756700883",
+        "lang": "all",
+        "name": "Torrentio Anime (Torrent / Debrid)",
         "baseUrl": "https://torrentio.strem.fun",
         "versionId": 1
       }
@@ -507,9 +478,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Xnxx",
-        "lang": "all",
         "id": "1853973586604481267",
+        "lang": "all",
+        "name": "Xnxx",
         "baseUrl": "https://www.xnxx.com",
         "versionId": 1
       }
@@ -525,9 +496,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Xvideos",
-        "lang": "all",
         "id": "8016727706963226859",
+        "lang": "all",
+        "name": "Xvideos",
         "baseUrl": "https://www.xvideos.com",
         "versionId": 1
       }
@@ -536,16 +507,16 @@
   {
     "name": "Aniyomi: Anime4up",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.anime4up",
-    "apk": "aniyomi-ar.anime4up-v14.77.apk",
+    "apk": "aniyomi-ar.anime4up-v14.78.apk",
     "lang": "ar",
-    "code": 77,
-    "version": "14.77",
+    "code": 78,
+    "version": "14.78",
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anime4Up",
-        "lang": "ar",
         "id": "528782559387795213",
+        "lang": "ar",
+        "name": "Anime4Up",
         "baseUrl": "https://w1.anime4up.rest",
         "versionId": 1
       }
@@ -561,10 +532,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "أنمي بالكوم",
-        "lang": "ar",
         "id": "5743347900850233900",
-        "baseUrl": "",
+        "lang": "ar",
+        "name": "أنمي بالكوم",
+        "baseUrl": "https://animeblkom.net",
         "versionId": 1
       }
     ]
@@ -579,9 +550,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Animeiat",
-        "lang": "ar",
         "id": "7117595939095792520",
+        "lang": "ar",
+        "name": "Animeiat",
         "baseUrl": "https://api.animeiat.co/v1",
         "versionId": 1
       }
@@ -597,9 +568,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeLek",
-        "lang": "ar",
         "id": "735529755877348598",
+        "lang": "ar",
+        "name": "AnimeLek",
         "baseUrl": "https://animelek.me",
         "versionId": 1
       }
@@ -608,17 +579,17 @@
   {
     "name": "Aniyomi: Animerco",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.animerco",
-    "apk": "aniyomi-ar.animerco-v14.56.apk",
+    "apk": "aniyomi-ar.animerco-v14.57.apk",
     "lang": "ar",
-    "code": 56,
-    "version": "14.56",
+    "code": 57,
+    "version": "14.57",
     "nsfw": 0,
     "sources": [
       {
-        "name": "Animerco",
-        "lang": "ar",
         "id": "4435835034990361158",
-        "baseUrl": "https://zeta.animerco.org",
+        "lang": "ar",
+        "name": "Animerco",
+        "baseUrl": "https://eva.animerco.org",
         "versionId": 1
       }
     ]
@@ -633,9 +604,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "ArabAnime",
-        "lang": "ar",
         "id": "7694781769943581537",
+        "lang": "ar",
+        "name": "ArabAnime",
         "baseUrl": "https://www.arabanime.net",
         "versionId": 1
       }
@@ -644,17 +615,17 @@
   {
     "name": "Aniyomi: Arab Seed",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.arabseed",
-    "apk": "aniyomi-ar.arabseed-v14.30.apk",
+    "apk": "aniyomi-ar.arabseed-v14.31.apk",
     "lang": "ar",
-    "code": 30,
-    "version": "14.30",
+    "code": 31,
+    "version": "14.31",
     "nsfw": 0,
     "sources": [
       {
-        "name": "عرب سيد",
-        "lang": "ar",
         "id": "4544379135186887077",
-        "baseUrl": "https://m.asd.homes",
+        "lang": "ar",
+        "name": "عرب سيد",
+        "baseUrl": "https://m.myseed.tv",
         "versionId": 1
       }
     ]
@@ -669,9 +640,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Asia2TV",
-        "lang": "ar",
         "id": "2083042094654392493",
+        "lang": "ar",
+        "name": "Asia2TV",
         "baseUrl": "https://ww1.asia2tv.pw",
         "versionId": 1
       }
@@ -680,17 +651,17 @@
   {
     "name": "Aniyomi: Cimaleek",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.cimaleek",
-    "apk": "aniyomi-ar.cimaleek-v14.10.apk",
+    "apk": "aniyomi-ar.cimaleek-v14.11.apk",
     "lang": "ar",
-    "code": 10,
-    "version": "14.10",
+    "code": 11,
+    "version": "14.11",
     "nsfw": 0,
     "sources": [
       {
-        "name": "سيما ليك",
-        "lang": "ar",
         "id": "9014633682469494124",
-        "baseUrl": "https://m.cimaleek.to",
+        "lang": "ar",
+        "name": "سيما ليك",
+        "baseUrl": "https://web.cimalek.buzz",
         "versionId": 1
       }
     ]
@@ -698,17 +669,17 @@
   {
     "name": "Aniyomi: Egy Dead",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.egydead",
-    "apk": "aniyomi-ar.egydead-v14.28.apk",
+    "apk": "aniyomi-ar.egydead-v14.29.apk",
     "lang": "ar",
-    "code": 28,
-    "version": "14.28",
+    "code": 29,
+    "version": "14.29",
     "nsfw": 0,
     "sources": [
       {
-        "name": "Egy Dead",
-        "lang": "ar",
         "id": "8402300441936118056",
-        "baseUrl": "https://egydead.space",
+        "lang": "ar",
+        "name": "Egy Dead",
+        "baseUrl": "https://egydead.here",
         "versionId": 1
       }
     ]
@@ -723,9 +694,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "فاصل اعلاني",
-        "lang": "ar",
         "id": "1378291029586884571",
+        "lang": "ar",
+        "name": "فاصل اعلاني",
         "baseUrl": "",
         "versionId": 1
       }
@@ -734,17 +705,17 @@
   {
     "name": "Aniyomi: Okanime",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.okanime",
-    "apk": "aniyomi-ar.okanime-v14.25.apk",
+    "apk": "aniyomi-ar.okanime-v14.26.apk",
     "lang": "ar",
-    "code": 25,
-    "version": "14.25",
+    "code": 26,
+    "version": "14.26",
     "nsfw": 0,
     "sources": [
       {
-        "name": "Okanime",
-        "lang": "ar",
         "id": "2275740574829569178",
-        "baseUrl": "https://www.okanime.xyz",
+        "lang": "ar",
+        "name": "Okanime",
+        "baseUrl": "https://ww3.okanime.xyz",
         "versionId": 1
       }
     ]
@@ -752,16 +723,16 @@
   {
     "name": "Aniyomi: Tuktuk Cinema",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.tuktukcinema",
-    "apk": "aniyomi-ar.tuktukcinema-v14.7.apk",
+    "apk": "aniyomi-ar.tuktukcinema-v14.8.apk",
     "lang": "ar",
-    "code": 7,
-    "version": "14.7",
+    "code": 8,
+    "version": "14.8",
     "nsfw": 0,
     "sources": [
       {
-        "name": "توك توك سينما",
-        "lang": "ar",
         "id": "7363299109912773155",
+        "lang": "ar",
+        "name": "توك توك سينما",
         "baseUrl": "",
         "versionId": 1
       }
@@ -770,17 +741,17 @@
   {
     "name": "Aniyomi: WIT ANIME",
     "pkg": "eu.kanade.tachiyomi.animeextension.ar.witanime",
-    "apk": "aniyomi-ar.witanime-v14.61.apk",
+    "apk": "aniyomi-ar.witanime-v14.62.apk",
     "lang": "ar",
-    "code": 61,
-    "version": "14.61",
+    "code": 62,
+    "version": "14.62",
     "nsfw": 0,
     "sources": [
       {
-        "name": "WIT ANIME",
-        "lang": "ar",
         "id": "8940958730943730988",
-        "baseUrl": "https://witanime.cyou",
+        "lang": "ar",
+        "name": "WIT ANIME",
+        "baseUrl": "https://witanime.site",
         "versionId": 1
       }
     ]
@@ -795,9 +766,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Anime-Base",
-        "lang": "de",
         "id": "891780646468545269",
+        "lang": "de",
+        "name": "Anime-Base",
         "baseUrl": "https://anime-base.net",
         "versionId": 1
       }
@@ -813,9 +784,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Anime-Loads",
+        "id": "655155856096",
         "lang": "de",
-        "id": "5721062895544425337",
+        "name": "Anime-Loads",
         "baseUrl": "https://www.anime-loads.org",
         "versionId": 1
       }
@@ -831,9 +802,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anime-Stream",
+        "id": "314593699490737069",
         "lang": "de",
-        "id": "4862920694965137646",
+        "name": "Anime-Stream",
         "baseUrl": "https://anime-stream.to",
         "versionId": 1
       }
@@ -849,9 +820,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeToast",
-        "lang": "de",
         "id": "2386616842414617638",
+        "lang": "de",
+        "name": "AnimeToast",
         "baseUrl": "https://www.animetoast.cc",
         "versionId": 1
       }
@@ -867,9 +838,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AniWorld",
+        "id": "8286900189409315836",
         "lang": "de",
-        "id": "1483214262415580537",
+        "name": "AniWorld",
         "baseUrl": "https://aniworld.to",
         "versionId": 1
       }
@@ -885,10 +856,10 @@
     "nsfw": 1,
     "sources": [
       {
+        "id": "7043232988624273316",
+        "lang": "de",
         "name": "Cinemathek",
-        "lang": "all",
-        "id": "4395218490826816597",
-        "baseUrl": "",
+        "baseUrl": "https://cinemathek.net",
         "versionId": 1
       }
     ]
@@ -903,9 +874,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Einfach",
-        "lang": "de",
         "id": "7375242378918108704",
+        "lang": "de",
+        "name": "Einfach",
         "baseUrl": "https://einfach.to",
         "versionId": 1
       }
@@ -921,9 +892,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "FilmPalast",
-        "lang": "de",
         "id": "3592180368623395225",
+        "lang": "de",
+        "name": "FilmPalast",
         "baseUrl": "https://filmpalast.to",
         "versionId": 1
       }
@@ -939,10 +910,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "996816978236636598",
+        "lang": "de",
         "name": "Kinoking",
-        "lang": "all",
-        "id": "5591941783715316173",
-        "baseUrl": "",
+        "baseUrl": "https://kinoking.cc",
         "versionId": 1
       }
     ]
@@ -957,9 +928,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Kool",
-        "lang": "de",
         "id": "5602415922350710914",
+        "lang": "de",
+        "name": "Kool",
         "baseUrl": "https://www.kool.to",
         "versionId": 1
       }
@@ -975,9 +946,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Moflix-Stream",
-        "lang": "de",
         "id": "6760309784631443658",
+        "lang": "de",
+        "name": "Moflix-Stream",
         "baseUrl": "https://moflix-stream.xyz",
         "versionId": 1
       }
@@ -993,9 +964,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Movie4k",
-        "lang": "de",
         "id": "4846722280190238047",
+        "lang": "de",
+        "name": "Movie4k",
         "baseUrl": "https://movie4k.stream",
         "versionId": 1
       }
@@ -1011,9 +982,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Serienstream",
-        "lang": "de",
         "id": "5798377917298605009",
+        "lang": "de",
+        "name": "Serienstream",
         "baseUrl": "http://186.2.175.5",
         "versionId": 1
       }
@@ -1029,9 +1000,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AllAnime",
-        "lang": "en",
         "id": "4709139914729853090",
+        "lang": "en",
+        "name": "AllAnime",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1047,10 +1018,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AllAnimeChi",
-        "lang": "en",
         "id": "7202244334005086123",
-        "baseUrl": "aHR0cHM6Ly9hY2FwaS5hbGxhbmltZS5kYXk=",
+        "lang": "en",
+        "name": "AllAnimeChi",
+        "baseUrl": "",
         "versionId": 1
       }
     ]
@@ -1065,9 +1036,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Anikage",
-        "lang": "en",
         "id": "975930199828232260",
+        "lang": "en",
+        "name": "Anikage",
         "baseUrl": "https://anikage.cc",
         "versionId": 1
       }
@@ -1083,9 +1054,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AniList",
-        "lang": "en",
         "id": "297628545340942341",
+        "lang": "en",
+        "name": "AniList",
         "baseUrl": "https://anilist.co",
         "versionId": 1
       }
@@ -1101,9 +1072,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeGG",
-        "lang": "en",
         "id": "2247987965040486818",
+        "lang": "en",
+        "name": "AnimeGG",
         "baseUrl": "https://www.animegg.org",
         "versionId": 1
       }
@@ -1119,10 +1090,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "2156984402743841841",
+        "lang": "en",
         "name": "AnimeKhor",
-        "lang": "all",
-        "id": "4878487514531797509",
-        "baseUrl": "",
+        "baseUrl": "https://animekhor.org",
         "versionId": 1
       }
     ]
@@ -1137,10 +1108,10 @@
     "nsfw": 1,
     "sources": [
       {
+        "id": "6722573244246256733",
+        "lang": "en",
         "name": "Animenosub",
-        "lang": "all",
-        "id": "5504512123597842254",
-        "baseUrl": "",
+        "baseUrl": "https://animenosub.to",
         "versionId": 1
       }
     ]
@@ -1155,9 +1126,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimePahe",
-        "lang": "en",
         "id": "9163675745699695675",
+        "lang": "en",
+        "name": "AnimePahe",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1173,9 +1144,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeParadise",
-        "lang": "en",
         "id": "3319373396687010408",
+        "lang": "en",
+        "name": "AnimeParadise",
         "baseUrl": "https://www.animeparadise.moe",
         "versionId": 1
       }
@@ -1191,9 +1162,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeTake",
-        "lang": "en",
         "id": "7460925030423755739",
+        "lang": "en",
+        "name": "AnimeTake",
         "baseUrl": "https://animetake.tv",
         "versionId": 1
       }
@@ -1209,9 +1180,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "AnimeVerse",
-        "lang": "en",
         "id": "2210523582293472538",
+        "lang": "en",
+        "name": "AnimeVerse",
         "baseUrl": "https://animeverse.to",
         "versionId": 1
       }
@@ -1220,17 +1191,17 @@
   {
     "name": "Aniyomi: AniWatchtv",
     "pkg": "eu.kanade.tachiyomi.animeextension.en.aniwatch",
-    "apk": "aniyomi-en.aniwatch-v14.20.apk",
+    "apk": "aniyomi-en.aniwatch-v14.21.apk",
     "lang": "en",
-    "code": 20,
-    "version": "14.20",
+    "code": 21,
+    "version": "14.21",
     "nsfw": 0,
     "sources": [
       {
+        "id": "8051984946387208343",
+        "lang": "en",
         "name": "AniWatchtv",
-        "lang": "all",
-        "id": "6161927489377236058",
-        "baseUrl": "",
+        "baseUrl": "https://aniwatchtv.to",
         "versionId": 1
       }
     ]
@@ -1245,9 +1216,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AniWave (Unoriginal)",
-        "lang": "en",
         "id": "4383278740715532790",
+        "lang": "en",
+        "name": "AniWave (Unoriginal)",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1263,9 +1234,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AsiaFlix",
-        "lang": "en",
         "id": "5831315710159126556",
+        "lang": "en",
+        "name": "AsiaFlix",
         "baseUrl": "https://asiaflix.app",
         "versionId": 1
       }
@@ -1281,10 +1252,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AV1Encodes",
-        "lang": "en",
         "id": "1014227790860730234",
-        "baseUrl": "",
+        "lang": "en",
+        "name": "AV1Encodes",
+        "baseUrl": "https://av1encodes.com",
         "versionId": 1
       }
     ]
@@ -1299,9 +1270,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "BLZone",
-        "lang": "en",
         "id": "1437838328434413410",
+        "lang": "en",
+        "name": "BLZone",
         "baseUrl": "https://blzone.net",
         "versionId": 1
       }
@@ -1317,9 +1288,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Cineby",
-        "lang": "en",
         "id": "3770577718621723403",
+        "lang": "en",
+        "name": "Cineby",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1335,10 +1306,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "5750955808412743706",
+        "lang": "en",
         "name": "DonghuaStream",
-        "lang": "all",
-        "id": "5127180952554566583",
-        "baseUrl": "",
+        "baseUrl": "https://donghuastream.org",
         "versionId": 1
       }
     ]
@@ -1353,10 +1324,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "787491081765201367",
+        "lang": "en",
         "name": "DopeBox",
-        "lang": "all",
-        "id": "2700295265204600557",
-        "baseUrl": "",
+        "baseUrl": "https://dopebox.to",
         "versionId": 1
       }
     ]
@@ -1371,10 +1342,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1804641041032730564",
+        "lang": "en",
         "name": "DopeFlix",
-        "lang": "all",
-        "id": "8767672870443545029",
-        "baseUrl": "",
+        "baseUrl": "https://citysonic.tv",
         "versionId": 1
       }
     ]
@@ -1389,9 +1360,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "haho.moe",
-        "lang": "en",
         "id": "3727306173180829340",
+        "lang": "en",
+        "name": "haho.moe",
         "baseUrl": "https://haho.moe",
         "versionId": 1
       }
@@ -1407,9 +1378,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "hanime.tv",
-        "lang": "en",
         "id": "2649711761599612719",
+        "lang": "en",
+        "name": "hanime.tv",
         "baseUrl": "https://hanime.tv",
         "versionId": 1
       }
@@ -1425,9 +1396,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HentaiMama",
-        "lang": "en",
         "id": "8058423919997530503",
+        "lang": "en",
+        "name": "HentaiMama",
         "baseUrl": "https://hentaimama.io",
         "versionId": 1
       }
@@ -1443,9 +1414,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HexaWatch",
-        "lang": "en",
         "id": "8787688252737895237",
+        "lang": "en",
+        "name": "HexaWatch",
         "baseUrl": "https://hexa.su",
         "versionId": 1
       }
@@ -1461,9 +1432,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Hstream",
-        "lang": "en",
         "id": "8733115911403916257",
+        "lang": "en",
+        "name": "Hstream",
         "baseUrl": "https://hstream.moe",
         "versionId": 2
       }
@@ -1479,9 +1450,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "JPFilms",
-        "lang": "en",
         "id": "865558085806297637",
+        "lang": "en",
+        "name": "JPFilms",
         "baseUrl": "https://jp-films.com",
         "versionId": 1
       }
@@ -1497,10 +1468,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "346809923577876481",
+        "lang": "en",
         "name": "Kaido",
-        "lang": "all",
-        "id": "3130824949335631175",
-        "baseUrl": "",
+        "baseUrl": "https://kaido.to",
         "versionId": 1
       }
     ]
@@ -1515,9 +1486,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Kayoanime",
+        "id": "203922289858257167",
         "lang": "en",
-        "id": "7360727822392852330",
+        "name": "Kayoanime",
         "baseUrl": "https://kayoanime.com",
         "versionId": 1
       }
@@ -1533,9 +1504,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "KickAssAnime",
-        "lang": "en",
         "id": "2081771513481539599",
+        "lang": "en",
+        "name": "KickAssAnime",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1551,9 +1522,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "KimoiTV",
-        "lang": "en",
         "id": "6358473316829302267",
+        "lang": "en",
+        "name": "KimoiTV",
         "baseUrl": "https://kimoitv.com",
         "versionId": 1
       }
@@ -1569,10 +1540,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "kissanime.com.ru",
-        "lang": "en",
         "id": "7306944860534104910",
-        "baseUrl": "",
+        "lang": "en",
+        "name": "kissanime.com.ru",
+        "baseUrl": "https://kissanime.com.ru",
         "versionId": 1
       }
     ]
@@ -1587,9 +1558,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "KissKH",
-        "lang": "en",
         "id": "2434089544252410046",
+        "lang": "en",
+        "name": "KissKH",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1605,10 +1576,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1480485712825107891",
+        "lang": "en",
         "name": "LuciferDonghua",
-        "lang": "all",
-        "id": "2003738311968151700",
-        "baseUrl": "",
+        "baseUrl": "https://luciferdonghua.in",
         "versionId": 1
       }
     ]
@@ -1623,9 +1594,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Mapple",
-        "lang": "en",
         "id": "4419717598017841435",
+        "lang": "en",
+        "name": "Mapple",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1641,9 +1612,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Miruro.tv",
-        "lang": "en",
         "id": "4467610354363305307",
+        "lang": "en",
+        "name": "Miruro.tv",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1659,9 +1630,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Movies Mod",
-        "lang": "en",
         "id": "2828515480418041073",
+        "lang": "en",
+        "name": "Movies Mod",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1677,9 +1648,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Myanime",
-        "lang": "en",
         "id": "4364465995809265087",
+        "lang": "en",
+        "name": "Myanime",
         "baseUrl": "https://myanime.live",
         "versionId": 1
       }
@@ -1695,9 +1666,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "My Running Man",
-        "lang": "en",
         "id": "6399273548157311628",
+        "lang": "en",
+        "name": "My Running Man",
         "baseUrl": "https://www.myrunningman.com",
         "versionId": 1
       }
@@ -1713,10 +1684,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "NineAnimeTv",
-        "lang": "all",
-        "id": "8581419477262297010",
-        "baseUrl": "",
+        "id": "1060432665709437790",
+        "lang": "en",
+        "name": "9AnimeTV",
+        "baseUrl": "https://9animetv.to",
         "versionId": 1
       }
     ]
@@ -1731,9 +1702,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "NoobSubs",
-        "lang": "en",
         "id": "5343978110335507456",
+        "lang": "en",
+        "name": "NoobSubs",
         "baseUrl": "https://noobftp1.noobsubs.com",
         "versionId": 1
       }
@@ -1749,9 +1720,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "123Anime",
-        "lang": "en",
         "id": "9168084761765988435",
+        "lang": "en",
+        "name": "123Anime",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1767,9 +1738,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Oppai Stream",
-        "lang": "en",
         "id": "1938195875614354298",
+        "lang": "en",
+        "name": "Oppai Stream",
         "baseUrl": "https://oppai.stream",
         "versionId": 1
       }
@@ -1785,10 +1756,10 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "8569022244537791293",
+        "lang": "en",
+        "name": "PinoyMoviePedia",
+        "baseUrl": "https://pinoymoviepedia.ru",
         "versionId": 1
       }
     ]
@@ -1803,9 +1774,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Rule34Video",
-        "lang": "en",
         "id": "9212790518101043860",
+        "lang": "en",
+        "name": "Rule34Video",
         "baseUrl": "https://rule34video.com",
         "versionId": 1
       }
@@ -1821,9 +1792,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "SuperStream",
-        "lang": "en",
         "id": "4654371105831183338",
+        "lang": "en",
+        "name": "SuperStream",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1839,9 +1810,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Tokuzilla",
-        "lang": "en",
         "id": "525433677388000141",
+        "lang": "en",
+        "name": "Tokuzilla",
         "baseUrl": "https://tokuzilla.net",
         "versionId": 1
       }
@@ -1857,9 +1828,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "UHD Movies",
-        "lang": "en",
         "id": "582068848290425167",
+        "lang": "en",
+        "name": "UHD Movies",
         "baseUrl": "",
         "versionId": 1
       }
@@ -1875,10 +1846,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1915898919039572670",
+        "lang": "en",
         "name": "UniqueStream",
-        "lang": "all",
-        "id": "5821577262722582185",
-        "baseUrl": "",
+        "baseUrl": "https://uniquestream.net",
         "versionId": 1
       }
     ]
@@ -1893,9 +1864,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "8622868574170180857",
+        "lang": "en",
         "name": "WcoAnimeDub",
-        "lang": "all",
-        "id": "6832845218296854464",
         "baseUrl": "https://www.wcoanimedub.tv",
         "versionId": 1
       }
@@ -1911,9 +1882,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "665629163594938512",
+        "lang": "en",
         "name": "WcoAnimeSub",
-        "lang": "all",
-        "id": "117426137056933619",
         "baseUrl": "https://www.wcoanimesub.tv",
         "versionId": 1
       }
@@ -1929,9 +1900,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "5805164799487731673",
+        "lang": "en",
         "name": "WcoForever",
-        "lang": "all",
-        "id": "8524549685851622555",
         "baseUrl": "https://www.wcoforever.net",
         "versionId": 1
       }
@@ -1947,9 +1918,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1677488626877212634",
+        "lang": "en",
         "name": "Wcofun",
-        "lang": "all",
-        "id": "230542295391454677",
         "baseUrl": "https://www.wcoflix.tv",
         "versionId": 1
       }
@@ -1965,9 +1936,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "4144024127778211557",
+        "lang": "en",
         "name": "WCOStream",
-        "lang": "all",
-        "id": "7824005519799095027",
         "baseUrl": "https://www.wcostream.tv",
         "versionId": 1
       }
@@ -1983,9 +1954,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "648702763126013078",
+        "lang": "en",
         "name": "WcoTv",
-        "lang": "all",
-        "id": "5740052322712788659",
         "baseUrl": "https://www.wco.tv",
         "versionId": 1
       }
@@ -1994,17 +1965,17 @@
   {
     "name": "Aniyomi: HiAnime (Dead)",
     "pkg": "eu.kanade.tachiyomi.animeextension.en.zoro",
-    "apk": "aniyomi-en.zoro-v14.74.apk",
+    "apk": "aniyomi-en.zoro-v14.75.apk",
     "lang": "en",
-    "code": 74,
-    "version": "14.74",
+    "code": 75,
+    "version": "14.75",
     "nsfw": 0,
     "sources": [
       {
+        "id": "6706411382606718900",
+        "lang": "en",
         "name": "HiAnime",
-        "lang": "all",
-        "id": "1271040894630734254",
-        "baseUrl": "",
+        "baseUrl": "https://hianime.to",
         "versionId": 1
       }
     ]
@@ -2019,9 +1990,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeAv1",
-        "lang": "es",
         "id": "1563723619853520901",
+        "lang": "es",
+        "name": "AnimeAv1",
         "baseUrl": "https://animeav1.com",
         "versionId": 1
       }
@@ -2037,9 +2008,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeBum",
-        "lang": "es",
         "id": "8233706727551070437",
+        "lang": "es",
+        "name": "AnimeBum",
         "baseUrl": "https://www.animebum.net",
         "versionId": 1
       }
@@ -2055,9 +2026,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeFenix",
-        "lang": "es",
         "id": "1901838936011764172",
+        "lang": "es",
+        "name": "AnimeFenix",
         "baseUrl": "https://animefenix2.tv",
         "versionId": 1
       }
@@ -2073,9 +2044,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeFLV",
-        "lang": "es",
         "id": "93702975723668971",
+        "lang": "es",
+        "name": "AnimeFLV",
         "baseUrl": "https://www3.animeflv.net",
         "versionId": 1
       }
@@ -2091,9 +2062,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeID",
-        "lang": "es",
         "id": "3757015232925755985",
+        "lang": "es",
+        "name": "AnimeID",
         "baseUrl": "https://www.animeid.tv/",
         "versionId": 1
       }
@@ -2109,9 +2080,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Animejl",
-        "lang": "es",
         "id": "2934893552535692335",
+        "lang": "es",
+        "name": "Animejl",
         "baseUrl": "https://www.anime-jl.net",
         "versionId": 1
       }
@@ -2127,9 +2098,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeLatinoHD",
-        "lang": "es",
         "id": "5412136569974245348",
+        "lang": "es",
+        "name": "AnimeLatinoHD",
         "baseUrl": "https://www.animelatinohd.com",
         "versionId": 1
       }
@@ -2145,9 +2116,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeMovil",
-        "lang": "es",
         "id": "3892773447316414021",
+        "lang": "es",
+        "name": "AnimeMovil",
         "baseUrl": "https://animemeow.xyz",
         "versionId": 1
       }
@@ -2163,10 +2134,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1547119562002827048",
+        "lang": "es",
         "name": "Animenix",
-        "lang": "all",
-        "id": "4935938239465793654",
-        "baseUrl": "",
+        "baseUrl": "https://animenix.com",
         "versionId": 1
       }
     ]
@@ -2181,10 +2152,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "2765997893095141044",
+        "lang": "es",
+        "name": "AnimeOnline.Ninja",
+        "baseUrl": "https://ver.animeonline.ninja",
         "versionId": 1
       }
     ]
@@ -2199,9 +2170,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeYT",
-        "lang": "es",
         "id": "3945696494710013768",
+        "lang": "es",
+        "name": "AnimeYT",
         "baseUrl": "https://ytanime.tv",
         "versionId": 1
       }
@@ -2217,10 +2188,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeYTES",
-        "lang": "all",
-        "id": "1854184353972911460",
-        "baseUrl": "",
+        "id": "4742118265598399159",
+        "lang": "es",
+        "name": "AnimeYT.es",
+        "baseUrl": "https://animeyt.es",
         "versionId": 1
       }
     ]
@@ -2235,9 +2206,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AsiaLiveAction",
-        "lang": "es",
         "id": "5750872840863097496",
+        "lang": "es",
+        "name": "AsiaLiveAction",
         "baseUrl": "https://asialiveaction.com",
         "versionId": 1
       }
@@ -2253,9 +2224,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "az-animex",
-        "lang": "es",
         "id": "7735188894368809510",
+        "lang": "es",
+        "name": "az-animex",
         "baseUrl": "https://www.az-animex.com",
         "versionId": 1
       }
@@ -2271,9 +2242,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "BeatZ Anime",
-        "lang": "es",
         "id": "27781270364033644",
+        "lang": "es",
+        "name": "BeatZ Anime",
         "baseUrl": "https://www.beatz-anime.net",
         "versionId": 1
       }
@@ -2289,9 +2260,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Cine24h",
-        "lang": "es",
         "id": "431438597808105152",
+        "lang": "es",
+        "name": "Cine24h",
         "baseUrl": "https://cine24h.online",
         "versionId": 1
       }
@@ -2307,9 +2278,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "CineCalidad",
-        "lang": "es",
         "id": "661928073480792687",
+        "lang": "es",
+        "name": "CineCalidad",
         "baseUrl": "https://www.cinecalidad.ec",
         "versionId": 1
       }
@@ -2325,10 +2296,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "2117238897122405265",
+        "lang": "es",
+        "name": "Cineplus123",
+        "baseUrl": "https://cineplus123.org",
         "versionId": 1
       }
     ]
@@ -2353,10 +2324,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "DeTodoPeliculas",
-        "lang": "all",
-        "id": "8497441812255745398",
-        "baseUrl": "",
+        "id": "4976463260586484820",
+        "lang": "es",
+        "name": "DeTodo Peliculas",
+        "baseUrl": "https://detodopeliculas.nu",
         "versionId": 1
       }
     ]
@@ -2371,9 +2342,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Doramasflix",
-        "lang": "es",
         "id": "1955566742338181506",
+        "lang": "es",
+        "name": "Doramasflix",
         "baseUrl": "https://doramasflix.in",
         "versionId": 1
       }
@@ -2389,9 +2360,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Doramasyt",
-        "lang": "es",
         "id": "885919523581666049",
+        "lang": "es",
+        "name": "Doramasyt",
         "baseUrl": "https://www.doramasyt.com",
         "versionId": 1
       }
@@ -2407,9 +2378,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "EnNovelas",
-        "lang": "es",
         "id": "6683521813386506618",
+        "lang": "es",
+        "name": "EnNovelas",
         "baseUrl": "https://l.ennovelas-tv.com",
         "versionId": 1
       }
@@ -2425,9 +2396,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "EstrenosDoramas",
-        "lang": "es",
         "id": "9219401167730918156",
+        "lang": "es",
+        "name": "EstrenosDoramas",
         "baseUrl": "https://estrenosdoramas.es",
         "versionId": 1
       }
@@ -2443,9 +2414,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "FanPelis",
-        "lang": "es",
         "id": "1270541458457028378",
+        "lang": "es",
+        "name": "FanPelis",
         "baseUrl": "https://fanpelis.la",
         "versionId": 1
       }
@@ -2461,10 +2432,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "2400169316701597839",
+        "lang": "es",
         "name": "FlixLatam",
-        "lang": "all",
-        "id": "5959100916145487367",
-        "baseUrl": "",
+        "baseUrl": "https://flixlatam.com",
         "versionId": 1
       }
     ]
@@ -2479,9 +2450,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Gnula",
-        "lang": "es",
         "id": "6896649241746590059",
+        "lang": "es",
+        "name": "Gnula",
         "baseUrl": "https://gnula.life",
         "versionId": 1
       }
@@ -2497,9 +2468,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Hackstore",
-        "lang": "es",
         "id": "1202443264869837465",
+        "lang": "es",
+        "name": "Hackstore",
         "baseUrl": "https://www.hackstore.fo",
         "versionId": 1
       }
@@ -2515,9 +2486,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Hentaijk",
-        "lang": "es",
         "id": "4616479108300191837",
+        "lang": "es",
+        "name": "Hentaijk",
         "baseUrl": "https://hentaijk.com",
         "versionId": 1
       }
@@ -2533,9 +2504,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Hentaila",
-        "lang": "es",
         "id": "6447194598203666818",
+        "lang": "es",
+        "name": "Hentaila",
         "baseUrl": "https://hentaila.com",
         "versionId": 1
       }
@@ -2551,9 +2522,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HentaiTk",
-        "lang": "es",
         "id": "7726637677864789742",
+        "lang": "es",
+        "name": "HentaiTk",
         "baseUrl": "https://hentaitk.net",
         "versionId": 1
       }
@@ -2569,9 +2540,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "HomeCine",
-        "lang": "es",
         "id": "4683784015054845419",
+        "lang": "es",
+        "name": "HomeCine",
         "baseUrl": "https://homecine.cc",
         "versionId": 1
       }
@@ -2587,9 +2558,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Jkanime",
-        "lang": "es",
         "id": "6007374093317538838",
+        "lang": "es",
+        "name": "Jkanime",
         "baseUrl": "https://jkanime.net",
         "versionId": 1
       }
@@ -2605,9 +2576,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Jkhentai",
-        "lang": "es",
         "id": "5893372327521334179",
+        "lang": "es",
+        "name": "Jkhentai",
         "baseUrl": "https://www.jkhentai.net",
         "versionId": 1
       }
@@ -2623,9 +2594,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Katanime",
-        "lang": "es",
         "id": "2564532783405004779",
+        "lang": "es",
+        "name": "Katanime",
         "baseUrl": "https://katanime.net",
         "versionId": 1
       }
@@ -2641,9 +2612,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "LACartoons",
-        "lang": "es",
         "id": "4124511684994754369",
+        "lang": "es",
+        "name": "LACartoons",
         "baseUrl": "https://www.lacartoons.com",
         "versionId": 1
       }
@@ -2653,16 +2624,16 @@
     "name": "Aniyomi: LaMovie",
     "pkg": "eu.kanade.tachiyomi.animeextension.es.lamovie",
     "apk": "aniyomi-es.lamovie-v14.24.apk",
-    "lang": "lang",
+    "lang": "es",
     "code": 24,
     "version": "14.24",
     "nsfw": 0,
     "sources": [
       {
+        "id": "5419283741928374105",
+        "lang": "es",
         "name": "LaMovie",
-        "lang": "lang",
-        "id": "5280653601144117463",
-        "baseUrl": "",
+        "baseUrl": "https://la.movie",
         "versionId": 1
       }
     ]
@@ -2677,9 +2648,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Latanime",
-        "lang": "es",
         "id": "7257892387451890645",
+        "lang": "es",
+        "name": "Latanime",
         "baseUrl": "https://latanime.org",
         "versionId": 1
       }
@@ -2695,9 +2666,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "LegionAnime",
-        "lang": "es",
         "id": "508651506167756898",
+        "lang": "es",
+        "name": "LegionAnime",
         "baseUrl": "https://legionanime.club/api",
         "versionId": 1
       }
@@ -2713,9 +2684,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "LocoPelis",
-        "lang": "es",
         "id": "7685749277599065785",
+        "lang": "es",
+        "name": "LocoPelis",
         "baseUrl": "https://www.locopelis.com",
         "versionId": 1
       }
@@ -2731,9 +2702,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "MetroSeries",
-        "lang": "es",
         "id": "302544302370133084",
+        "lang": "es",
+        "name": "MetroSeries",
         "baseUrl": "https://www3.seriesmetro.net",
         "versionId": 1
       }
@@ -2749,9 +2720,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "MhdFlix",
-        "lang": "es",
         "id": "4812325950703384298",
+        "lang": "es",
+        "name": "MhdFlix",
         "baseUrl": "https://ww1.mhdflix.com",
         "versionId": 1
       }
@@ -2767,9 +2738,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "MonosChinos",
-        "lang": "es",
         "id": "6957694006954649296",
+        "lang": "es",
+        "name": "MonosChinos",
         "baseUrl": "https://vww.monoschinos2.net",
         "versionId": 1
       }
@@ -2785,9 +2756,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "MundoDonghua",
-        "lang": "es",
         "id": "4356029013369426954",
+        "lang": "es",
+        "name": "MundoDonghua",
         "baseUrl": "https://www.mundodonghua.com",
         "versionId": 1
       }
@@ -2803,9 +2774,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Pandrama",
-        "lang": "es",
         "id": "8290662435507939982",
+        "lang": "es",
+        "name": "Pandrama",
         "baseUrl": "https://pandrama.com",
         "versionId": 1
       }
@@ -2821,9 +2792,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "PelisForte",
-        "lang": "es",
         "id": "4419048029031752703",
+        "lang": "es",
+        "name": "PelisForte",
         "baseUrl": "https://www2.pelisforte.se",
         "versionId": 1
       }
@@ -2839,9 +2810,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1400819034564144238",
+        "lang": "es",
         "name": "PelisPlusHD",
-        "lang": "all",
-        "id": "4160618105441614149",
         "baseUrl": "https://pelisplushd.bz",
         "versionId": 1
       }
@@ -2851,15 +2822,15 @@
     "name": "Aniyomi: PelisPlusPh",
     "pkg": "eu.kanade.tachiyomi.animeextension.es.pelisplusph",
     "apk": "aniyomi-es.pelisplusph-v14.90.apk",
-    "lang": "Subtitulado",
+    "lang": "es",
     "code": 90,
     "version": "14.90",
     "nsfw": 0,
     "sources": [
       {
+        "id": "4917265654298497443",
+        "lang": "es",
         "name": "PelisPlusPh",
-        "lang": "Subtitulado",
-        "id": "3258296999152176169",
         "baseUrl": "https://www.pelisplushd.la",
         "versionId": 1
       }
@@ -2875,9 +2846,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1705636111422561130",
+        "lang": "es",
         "name": "PelisPlusTo",
-        "lang": "all",
-        "id": "5080896538454403018",
         "baseUrl": "https://tioplus.app",
         "versionId": 1
       }
@@ -2903,9 +2874,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "SeriesKao",
-        "lang": "es",
         "id": "1179552672777572300",
+        "lang": "es",
+        "name": "SeriesKao",
         "baseUrl": "https://serieskao.top",
         "versionId": 1
       }
@@ -2921,10 +2892,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "2714169179278506077",
+        "lang": "es",
         "name": "SoloLatino",
-        "lang": "all",
-        "id": "6877182641367105328",
-        "baseUrl": "",
+        "baseUrl": "https://sololatino.net",
         "versionId": 1
       }
     ]
@@ -2949,10 +2920,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Tiodonghua",
-        "lang": "all",
-        "id": "1911530976054634599",
-        "baseUrl": "",
+        "id": "6830054141432094072",
+        "lang": "es",
+        "name": "Tiodonghua.com",
+        "baseUrl": "https://anime.tiodonghua.com",
         "versionId": 1
       }
     ]
@@ -2967,9 +2938,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "VeoHentai",
-        "lang": "es",
         "id": "1192827176989085393",
+        "lang": "es",
+        "name": "VeoHentai",
         "baseUrl": "https://veohentai.com",
         "versionId": 1
       }
@@ -2985,9 +2956,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "VerAni.me",
-        "lang": "es",
         "id": "2476297921251317481",
+        "lang": "es",
+        "name": "VerAni.me",
         "baseUrl": "https://verani.me",
         "versionId": 1
       }
@@ -3003,9 +2974,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "VerAnimes",
-        "lang": "es",
         "id": "6262145028910416459",
+        "lang": "es",
+        "name": "VerAnimes",
         "baseUrl": "https://wwv.veranimes.net",
         "versionId": 1
       }
@@ -3015,16 +2986,16 @@
     "name": "Aniyomi: VerPelisTop",
     "pkg": "eu.kanade.tachiyomi.animeextension.es.verpelistop",
     "apk": "aniyomi-es.verpelistop-v14.10.apk",
-    "lang": "p",
+    "lang": "es",
     "code": 10,
     "version": "14.10",
     "nsfw": 0,
     "sources": [
       {
+        "id": "8167780943978050375",
+        "lang": "es",
         "name": "VerPelisTop",
-        "lang": "p",
-        "id": "7722781661136135121",
-        "baseUrl": "",
+        "baseUrl": "https://www1.verpelis.top",
         "versionId": 1
       }
     ]
@@ -3039,9 +3010,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "VerSeriesOnline",
-        "lang": "es",
         "id": "8058040181507333420",
+        "lang": "es",
+        "name": "VerSeriesOnline",
         "baseUrl": "https://www.verseriesonline.net",
         "versionId": 1
       }
@@ -3057,9 +3028,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "zeroanime",
-        "lang": "es",
         "id": "2089287837152010776",
+        "lang": "es",
+        "name": "zeroanime",
         "baseUrl": "https://www4.zeroanime.xyz",
         "versionId": 1
       }
@@ -3075,9 +3046,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Zonaleros",
-        "lang": "es",
         "id": "7487458127391606163",
+        "lang": "es",
+        "name": "Zonaleros",
         "baseUrl": "https://www.zona-leros.com",
         "versionId": 1
       }
@@ -3093,9 +3064,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anime-Sama",
-        "lang": "fr",
         "id": "6170936930338275444",
+        "lang": "fr",
+        "name": "Anime-Sama",
         "baseUrl": "",
         "versionId": 1
       }
@@ -3111,9 +3082,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeVostFr",
-        "lang": "fr",
         "id": "5563793683192822639",
+        "lang": "fr",
+        "name": "AnimeVostFr",
         "baseUrl": "https://animevostfr.tv",
         "versionId": 1
       }
@@ -3129,9 +3100,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AniSama",
-        "lang": "fr",
         "id": "1898818943039425198",
+        "lang": "fr",
+        "name": "AniSama",
         "baseUrl": "https://v1.animesz.xyz",
         "versionId": 1
       }
@@ -3147,10 +3118,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "EmpireStreaming",
-        "lang": "fr",
         "id": "1449801594109278557",
-        "baseUrl": "",
+        "lang": "fr",
+        "name": "EmpireStreaming",
+        "baseUrl": "https://empire-stream.net",
         "versionId": 1
       }
     ]
@@ -3165,10 +3136,10 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "FRAnime",
-        "lang": "fr",
         "id": "3074980924810171824",
-        "baseUrl": "https://$domain",
+        "lang": "fr",
+        "name": "FRAnime",
+        "baseUrl": "",
         "versionId": 1
       }
     ]
@@ -3183,10 +3154,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "FrenchAnime",
-        "lang": "all",
-        "id": "2385335336227748325",
-        "baseUrl": "",
+        "id": "8142032927870763721",
+        "lang": "fr",
+        "name": "French Anime",
+        "baseUrl": "https://french-anime.com",
         "versionId": 1
       }
     ]
@@ -3201,10 +3172,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Hds",
-        "lang": "all",
-        "id": "7103198652408866591",
-        "baseUrl": "",
+        "id": "3206613581297348563",
+        "lang": "fr",
+        "name": "HDS",
+        "baseUrl": "https://on1.hds.quest",
         "versionId": 1
       }
     ]
@@ -3219,10 +3190,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "8914615515692839881",
+        "lang": "fr",
         "name": "JetAnime",
-        "lang": "all",
-        "id": "792055595957910189",
-        "baseUrl": "",
+        "baseUrl": "https://ssl.jetanimes.com",
         "versionId": 1
       }
     ]
@@ -3237,10 +3208,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "7657190496536415953",
+        "lang": "fr",
         "name": "MyKdrama",
-        "lang": "all",
-        "id": "5623014898969153714",
-        "baseUrl": "",
+        "baseUrl": "https://mykdrama.co",
         "versionId": 1
       }
     ]
@@ -3255,9 +3226,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "OtakuFR",
-        "lang": "fr",
         "id": "1844040902149745273",
+        "lang": "fr",
+        "name": "OtakuFR",
         "baseUrl": "https://otakufr.cc",
         "versionId": 1
       }
@@ -3273,10 +3244,10 @@
     "nsfw": 1,
     "sources": [
       {
+        "id": "6593176551595101740",
+        "lang": "fr",
         "name": "VoirCartoon",
-        "lang": "all",
-        "id": "2350036106251076934",
-        "baseUrl": "",
+        "baseUrl": "https://voircartoon.com",
         "versionId": 1
       }
     ]
@@ -3291,9 +3262,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Vostfree",
-        "lang": "fr",
         "id": "8596049504378147571",
+        "lang": "fr",
+        "name": "Vostfree",
         "baseUrl": "https://vostfree.ws",
         "versionId": 1
       }
@@ -3309,10 +3280,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "7149332646839704216",
+        "lang": "fr",
         "name": "Wiflix",
-        "lang": "all",
-        "id": "6944926554700719908",
-        "baseUrl": "",
+        "baseUrl": "https://flemmix.best",
         "versionId": 1
       }
     ]
@@ -3327,9 +3298,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "YoMovies",
-        "lang": "hi",
         "id": "2486904751081872151",
+        "lang": "hi",
+        "name": "YoMovies",
         "baseUrl": "https://yomovies.town",
         "versionId": 1
       }
@@ -3345,10 +3316,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "2019695674801188380",
+        "lang": "id",
         "name": "AnimeIndo",
-        "lang": "all",
-        "id": "5844324792984981327",
-        "baseUrl": "",
+        "baseUrl": "https://animeindo.skin",
         "versionId": 1
       }
     ]
@@ -3363,9 +3334,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Kuramanime",
-        "lang": "id",
         "id": "4677878836897500878",
+        "lang": "id",
+        "name": "Kuramanime",
         "baseUrl": "https://v8.kuramanime.tel",
         "versionId": 1
       }
@@ -3381,9 +3352,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Kuronime",
-        "lang": "id",
         "id": "2083695115646974607",
+        "lang": "id",
+        "name": "Kuronime",
         "baseUrl": "https://tv1.kuronime.vip",
         "versionId": 1
       }
@@ -3399,10 +3370,10 @@
     "nsfw": 1,
     "sources": [
       {
+        "id": "3422641844834047610",
+        "lang": "id",
         "name": "MiniOppai",
-        "lang": "all",
-        "id": "8091516847080882339",
-        "baseUrl": "",
+        "baseUrl": "https://minioppai.org",
         "versionId": 1
       }
     ]
@@ -3417,9 +3388,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "NeoNime",
-        "lang": "id",
         "id": "6698339357657312694",
+        "lang": "id",
+        "name": "NeoNime",
         "baseUrl": "https://neonime.ink",
         "versionId": 1
       }
@@ -3435,9 +3406,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "NimeGami",
-        "lang": "id",
         "id": "3947801646056600641",
+        "lang": "id",
+        "name": "NimeGami",
         "baseUrl": "https://nimegami.id",
         "versionId": 1
       }
@@ -3453,9 +3424,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Oploverz",
-        "lang": "id",
         "id": "2573103800968432770",
+        "lang": "id",
+        "name": "Oploverz",
         "baseUrl": "https://oploverz.media",
         "versionId": 1
       }
@@ -3471,9 +3442,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "OtakuDesu",
-        "lang": "id",
         "id": "3428487071093013526",
+        "lang": "id",
+        "name": "OtakuDesu",
         "baseUrl": "https://otakudesu.blog",
         "versionId": 1
       }
@@ -3489,9 +3460,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Samehadaku",
-        "lang": "id",
         "id": "7446063017613536202",
+        "lang": "id",
+        "name": "Samehadaku",
         "baseUrl": "https://v2.samehadaku.how",
         "versionId": 1
       }
@@ -3507,9 +3478,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeSaturn",
-        "lang": "it",
         "id": "1863212142777957799",
+        "lang": "it",
+        "name": "AnimeSaturn",
         "baseUrl": "",
         "versionId": 1
       }
@@ -3525,9 +3496,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeUnity",
-        "lang": "it",
         "id": "7762808921754601430",
+        "lang": "it",
+        "name": "AnimeUnity",
         "baseUrl": "https://www.animeunity.so",
         "versionId": 1
       }
@@ -3543,9 +3514,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "ANIMEWORLD.tv",
-        "lang": "it",
         "id": "6601315231151625432",
+        "lang": "it",
+        "name": "ANIMEWORLD.tv",
         "baseUrl": "https://www.animeworld.ac",
         "versionId": 1
       }
@@ -3561,9 +3532,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AniPlay",
-        "lang": "it",
         "id": "9100732207446736332",
+        "lang": "it",
+        "name": "AniPlay",
         "baseUrl": "https://aniplay.co",
         "versionId": 2
       }
@@ -3579,9 +3550,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HentaiSaturn",
-        "lang": "it",
         "id": "5832452298268268088",
+        "lang": "it",
+        "name": "HentaiSaturn",
         "baseUrl": "https://www.hentaisaturn.com",
         "versionId": 1
       }
@@ -3597,9 +3568,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Toonitalia",
-        "lang": "it",
         "id": "8903679906651673401",
+        "lang": "it",
+        "name": "Toonitalia",
         "baseUrl": "https://toonitalia.green",
         "versionId": 1
       }
@@ -3615,9 +3586,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "VVVVID",
-        "lang": "it",
         "id": "8309061778249307518",
+        "lang": "it",
+        "name": "VVVVID",
         "baseUrl": "https://www.vvvvid.it",
         "versionId": 1
       }
@@ -3633,9 +3604,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Aniweek",
-        "lang": "ko",
         "id": "4565983297271071094",
+        "lang": "ko",
+        "name": "Aniweek",
         "baseUrl": "https://aniweek.com",
         "versionId": 1
       }
@@ -3651,10 +3622,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "DesuOnline",
-        "lang": "all",
-        "id": "7693141370485924835",
-        "baseUrl": "",
+        "id": "5996410160070658951",
+        "lang": "pl",
+        "name": "desu-online",
+        "baseUrl": "https://desu-online.pl",
         "versionId": 1
       }
     ]
@@ -3669,9 +3640,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Docchi",
-        "lang": "pl",
         "id": "594564153449456404",
+        "lang": "pl",
+        "name": "Docchi",
         "baseUrl": "https://docchi.pl",
         "versionId": 1
       }
@@ -3687,9 +3658,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "OgladajAnime",
-        "lang": "pl",
         "id": "1174869729090616971",
+        "lang": "pl",
+        "name": "OgladajAnime",
         "baseUrl": "https://ogladajanime.pl",
         "versionId": 1
       }
@@ -3705,9 +3676,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Wbijam",
-        "lang": "pl",
         "id": "3333993424729096948",
+        "lang": "pl",
+        "name": "Wbijam",
         "baseUrl": "https://wbijam.pl",
         "versionId": 1
       }
@@ -3717,16 +3688,16 @@
     "name": "Aniyomi: Anikyuu",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.anikyuu",
     "apk": "aniyomi-pt.anikyuu-v14.6.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 6,
     "version": "14.6",
     "nsfw": 0,
     "sources": [
       {
+        "id": "4361637123039891722",
+        "lang": "pt-BR",
         "name": "Anikyuu",
-        "lang": "all",
-        "id": "5169517422393168443",
-        "baseUrl": "",
+        "baseUrl": "https://anikyuu.to",
         "versionId": 1
       }
     ]
@@ -3741,9 +3712,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anime Fire",
-        "lang": "pt-BR",
         "id": "2914332399101546717",
+        "lang": "pt-BR",
+        "name": "Anime Fire",
         "baseUrl": "https://animefire.io",
         "versionId": 1
       }
@@ -3753,16 +3724,16 @@
     "name": "Aniyomi: AnimeIto",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animeito",
     "apk": "aniyomi-pt.animeito-v14.7.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 7,
     "version": "14.7",
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeIto",
-        "lang": "all",
-        "id": "3560978131660391649",
-        "baseUrl": "",
+        "id": "5503541725559168140",
+        "lang": "pt-BR",
+        "name": "Animeito",
+        "baseUrl": "https://animesonline.io",
         "versionId": 1
       }
     ]
@@ -3771,16 +3742,16 @@
     "name": "Aniyomi: AnimePlay",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animeplay",
     "apk": "aniyomi-pt.animeplay-v14.6.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 6,
     "version": "14.6",
     "nsfw": 1,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "3974766726104260721",
+        "lang": "pt-BR",
+        "name": "Anime Play",
+        "baseUrl": "https://animeplay.cloud",
         "versionId": 1
       }
     ]
@@ -3789,16 +3760,16 @@
     "name": "Aniyomi: AnimePlayer",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animeplayer",
     "apk": "aniyomi-pt.animeplayer-v14.10.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 10,
     "version": "14.10",
     "nsfw": 1,
     "sources": [
       {
+        "id": "6456382572881676651",
+        "lang": "pt-BR",
         "name": "AnimePlayer",
-        "lang": "all",
-        "id": "2026565438451627424",
-        "baseUrl": "",
+        "baseUrl": "https://animeplayer.com.br",
         "versionId": 1
       }
     ]
@@ -3807,16 +3778,16 @@
     "name": "Aniyomi: AnimeQ",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animeq",
     "apk": "aniyomi-pt.animeq-v14.6.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 6,
     "version": "14.6",
     "nsfw": 1,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "3666901064696818585",
+        "lang": "pt-BR",
+        "name": "AnimeQ",
+        "baseUrl": "https://animeq.net",
         "versionId": 1
       }
     ]
@@ -3825,16 +3796,16 @@
     "name": "Aniyomi: AnimesBr (Dead)",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animesbr",
     "apk": "aniyomi-pt.animesbr-v14.11.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 11,
     "version": "14.11",
     "nsfw": 1,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "3000709501394043899",
+        "lang": "pt-BR",
+        "name": "Animes BR",
+        "baseUrl": "https://animesbr.tv",
         "versionId": 1
       }
     ]
@@ -3849,9 +3820,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Animes CX",
-        "lang": "pt-BR",
         "id": "3718439836617642466",
+        "lang": "pt-BR",
+        "name": "Animes CX",
         "baseUrl": "https://animescx.com.br",
         "versionId": 1
       }
@@ -3867,9 +3838,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Animes Digital",
-        "lang": "pt-BR",
         "id": "4877286181768246205",
+        "lang": "pt-BR",
+        "name": "Animes Digital",
         "baseUrl": "https://animesdigital.org",
         "versionId": 1
       }
@@ -3879,16 +3850,16 @@
     "name": "Aniyomi: AnimesDrive",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animesdrive",
     "apk": "aniyomi-pt.animesdrive-v14.8.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 8,
     "version": "14.8",
     "nsfw": 1,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "6170414613821552199",
+        "lang": "pt-BR",
+        "name": "Animes Drive",
+        "baseUrl": "https://animesdrive.online",
         "versionId": 1
       }
     ]
@@ -3903,9 +3874,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Animes Games",
-        "lang": "pt-BR",
         "id": "6519826467833124450",
+        "lang": "pt-BR",
+        "name": "Animes Games",
         "baseUrl": "https://animesgames.cc",
         "versionId": 1
       }
@@ -3915,16 +3886,16 @@
     "name": "Aniyomi: Q1N",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animesgratis",
     "apk": "aniyomi-pt.animesgratis-v14.36.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 36,
     "version": "14.36",
     "nsfw": 0,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "2969482460524685571",
+        "lang": "pt-BR",
+        "name": "Q1N",
+        "baseUrl": "https://q1n.net",
         "versionId": 1
       }
     ]
@@ -3933,16 +3904,16 @@
     "name": "Aniyomi: Animes Online CC",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animesonlinecc",
     "apk": "aniyomi-pt.animesonlinecc-v14.7.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 7,
     "version": "14.7",
     "nsfw": 1,
     "sources": [
       {
-        "name": "AnimesOnlineCC",
-        "lang": "all",
-        "id": "3659342754419255408",
-        "baseUrl": "",
+        "id": "7386550303236826765",
+        "lang": "pt-BR",
+        "name": "Animes Online CC",
+        "baseUrl": "https://animesonlinecc.to",
         "versionId": 1
       }
     ]
@@ -3951,16 +3922,16 @@
     "name": "Aniyomi: AnimesOnlineCloud",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animesonlinecloud",
     "apk": "aniyomi-pt.animesonlinecloud-v14.8.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 8,
     "version": "14.8",
     "nsfw": 1,
     "sources": [
       {
-        "name": "span.title",
-        "lang": "all",
-        "id": "1324302160738642498",
-        "baseUrl": "",
+        "id": "6962698096138673113",
+        "lang": "pt-BR",
+        "name": "Animes Online Cloud",
+        "baseUrl": "https://animesonline.cloud",
         "versionId": 1
       }
     ]
@@ -3975,9 +3946,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Animes Online Vip",
-        "lang": "pt-BR",
         "id": "533096643049014020",
+        "lang": "pt-BR",
+        "name": "Animes Online Vip",
         "baseUrl": "https://animesonlinefhd.vip",
         "versionId": 1
       }
@@ -3993,9 +3964,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimeCore",
+        "id": "9099608567050495800",
         "lang": "pt-BR",
-        "id": "8020184583182257249",
+        "name": "AnimeCore",
         "baseUrl": "https://animecore.net",
         "versionId": 1
       }
@@ -4005,17 +3976,17 @@
     "name": "Aniyomi: AnimesROLL",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.animesroll",
     "apk": "aniyomi-pt.animesroll-v14.8.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 8,
     "version": "14.8",
     "nsfw": 0,
     "sources": [
       {
-        "name": "AnimesROLL",
-        "lang": "all",
-        "id": "4100339896774058686",
-        "baseUrl": "",
-        "versionId": 1
+        "id": "734961575978606843",
+        "lang": "pt-BR",
+        "name": "Animes ROLL",
+        "baseUrl": "https://anroll.tv",
+        "versionId": 2
       }
     ]
   },
@@ -4029,10 +4000,10 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anitube",
-        "lang": "pt-BR",
         "id": "9152952750171112510",
-        "baseUrl": "",
+        "lang": "pt-BR",
+        "name": "Anitube",
+        "baseUrl": "https://www.anitube.vip",
         "versionId": 1
       }
     ]
@@ -4041,16 +4012,16 @@
     "name": "Aniyomi: BetterAnimeIo",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.betteranimeio",
     "apk": "aniyomi-pt.betteranimeio-v14.4.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 4,
     "version": "14.4",
     "nsfw": 0,
     "sources": [
       {
+        "id": "2407610655424858426",
+        "lang": "pt-BR",
         "name": "BetterAnimeIo",
-        "lang": "all",
-        "id": "1321363640897048924",
-        "baseUrl": "",
+        "baseUrl": "https://betteranime.io",
         "versionId": 1
       }
     ]
@@ -4059,16 +4030,16 @@
     "name": "Aniyomi: DarkMahou",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.darkmahou",
     "apk": "aniyomi-pt.darkmahou-v14.18.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 18,
     "version": "14.18",
     "nsfw": 0,
     "sources": [
       {
-        "name": "DarkMahou",
-        "lang": "all",
-        "id": "3896781192633913886",
-        "baseUrl": "",
+        "id": "59748104323952005",
+        "lang": "pt-BR",
+        "name": "DarkMahou (Torrent)",
+        "baseUrl": "https://darkmahou.org",
         "versionId": 1
       }
     ]
@@ -4083,9 +4054,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Dattebayo BR",
-        "lang": "pt-BR",
         "id": "429519413057267556",
+        "lang": "pt-BR",
+        "name": "Dattebayo BR",
         "baseUrl": "https://www.dattebayo-br.com",
         "versionId": 1
       }
@@ -4101,9 +4072,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Donghua no Sekai",
-        "lang": "pt-BR",
         "id": "1190488322033769414",
+        "lang": "pt-BR",
+        "name": "Donghua no Sekai",
         "baseUrl": "https://donghuanosekai.com",
         "versionId": 1
       }
@@ -4119,9 +4090,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Doramogo",
-        "lang": "pt-BR",
         "id": "913841527115486600",
+        "lang": "pt-BR",
+        "name": "Doramogo",
         "baseUrl": "https://doramogo.com",
         "versionId": 1
       }
@@ -4137,9 +4108,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Fun Anime TV",
-        "lang": "pt-BR",
         "id": "7920607630206318931",
+        "lang": "pt-BR",
+        "name": "Fun Anime TV",
         "baseUrl": "https://betterclass.click",
         "versionId": 1
       }
@@ -4155,9 +4126,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Goyabu",
-        "lang": "pt-BR",
         "id": "191823841242368911",
+        "lang": "pt-BR",
+        "name": "Goyabu",
         "baseUrl": "https://goyabu.io",
         "versionId": 1
       }
@@ -4173,9 +4144,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HentaisTube",
-        "lang": "pt-BR",
         "id": "5035104637271805422",
+        "lang": "pt-BR",
+        "name": "HentaisTube",
         "baseUrl": "https://www.hentaistube.com",
         "versionId": 1
       }
@@ -4191,9 +4162,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Meus Animes",
-        "lang": "pt-BR",
         "id": "8394381853778573358",
+        "lang": "pt-BR",
+        "name": "Meus Animes",
         "baseUrl": "https://meusanimes.vip",
         "versionId": 1
       }
@@ -4209,9 +4180,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Muito Hentai",
-        "lang": "pt-BR",
         "id": "1062606379654091909",
+        "lang": "pt-BR",
+        "name": "Muito Hentai",
         "baseUrl": "https://www.muitohentai.com",
         "versionId": 1
       }
@@ -4221,16 +4192,16 @@
     "name": "Aniyomi: Pi Fansubs",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.pifansubs",
     "apk": "aniyomi-pt.pifansubs-v14.33.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 33,
     "version": "14.33",
     "nsfw": 1,
     "sources": [
       {
-        "name": "PiFansubs",
-        "lang": "all",
-        "id": "9089548421134504875",
-        "baseUrl": "",
+        "id": "2457282111412357647",
+        "lang": "pt-BR",
+        "name": "Pi Fansubs",
+        "baseUrl": "https://pifansubs.club",
         "versionId": 1
       }
     ]
@@ -4239,16 +4210,16 @@
     "name": "Aniyomi: SmartAnimes",
     "pkg": "eu.kanade.tachiyomi.animeextension.pt.smartanimes",
     "apk": "aniyomi-pt.smartanimes-v14.6.apk",
-    "lang": "pt",
+    "lang": "pt-BR",
     "code": 6,
     "version": "14.6",
     "nsfw": 1,
     "sources": [
       {
-        "name": ".q",
-        "lang": "all",
-        "id": "8335511281690548861",
-        "baseUrl": "",
+        "id": "7160915998368939090",
+        "lang": "pt-BR",
+        "name": "SmartAnimes",
+        "baseUrl": "https://smartanimes.net",
         "versionId": 1
       }
     ]
@@ -4263,9 +4234,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Sushi Animes",
-        "lang": "pt-BR",
         "id": "3082275639294081311",
+        "lang": "pt-BR",
+        "name": "Sushi Animes",
         "baseUrl": "https://sushianimes.com.br",
         "versionId": 1
       }
@@ -4281,9 +4252,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Animelib",
-        "lang": "ru",
         "id": "1484002441113474607",
+        "lang": "ru",
+        "name": "Animelib",
         "baseUrl": "",
         "versionId": 1
       }
@@ -4309,10 +4280,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "1322485891319274755",
+        "lang": "sr",
         "name": "AnimeBalkan",
-        "lang": "all",
-        "id": "1038745339978911714",
-        "baseUrl": "",
+        "baseUrl": "https://animebalkan.org",
         "versionId": 1
       }
     ]
@@ -4327,9 +4298,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anime Srbija",
-        "lang": "sr",
         "id": "789279548118486310",
+        "lang": "sr",
+        "name": "Anime Srbija",
         "baseUrl": "https://www.animesrbija.com",
         "versionId": 1
       }
@@ -4345,9 +4316,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Animeler",
-        "lang": "tr",
         "id": "6594370763071208431",
+        "lang": "tr",
+        "name": "Animeler",
         "baseUrl": "https://animeler.pw",
         "versionId": 1
       }
@@ -4363,9 +4334,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anizm",
-        "lang": "tr",
         "id": "3103642053214293691",
+        "lang": "tr",
+        "name": "Anizm",
         "baseUrl": "https://anizm.net",
         "versionId": 1
       }
@@ -4381,10 +4352,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "2012826325126448867",
+        "lang": "tr",
         "name": "AsyaAnimeleri",
-        "lang": "all",
-        "id": "5407513510671240088",
-        "baseUrl": "",
+        "baseUrl": "https://asyaanimeleri.top",
         "versionId": 1
       }
     ]
@@ -4399,9 +4370,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HDFilmCehennemi",
-        "lang": "tr",
         "id": "7053678650145882822",
+        "lang": "tr",
+        "name": "HDFilmCehennemi",
         "baseUrl": "https://www.hdfilmcehennemi.nl",
         "versionId": 1
       }
@@ -4417,9 +4388,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "HentaiZM",
-        "lang": "tr",
         "id": "9058842310298227429",
+        "lang": "tr",
+        "name": "HentaiZM",
         "baseUrl": "https://www.hentaizm6.online",
         "versionId": 1
       }
@@ -4435,10 +4406,10 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "5869353240534047560",
+        "lang": "tr",
         "name": "TRAnimeCI",
-        "lang": "all",
-        "id": "5431537906319600398",
-        "baseUrl": "",
+        "baseUrl": "https://tranimaci.com",
         "versionId": 1
       }
     ]
@@ -4453,9 +4424,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "TR Anime Izle",
-        "lang": "tr",
         "id": "2607995207802293539",
+        "lang": "tr",
+        "name": "TR Anime Izle",
         "baseUrl": "https://www.tranimeizle.io",
         "versionId": 1
       }
@@ -4471,9 +4442,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Türk Anime TV",
-        "lang": "tr",
         "id": "1539162878022626585",
+        "lang": "tr",
+        "name": "Türk Anime TV",
         "baseUrl": "https://www.turkanime.tv",
         "versionId": 1
       }
@@ -4489,9 +4460,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "UAKino",
-        "lang": "uk",
         "id": "2256494309842770890",
+        "lang": "uk",
+        "name": "UAKino",
         "baseUrl": "https://uakino.best",
         "versionId": 1
       }
@@ -4507,9 +4478,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "UFDub",
-        "lang": "uk",
         "id": "4077428168272340843",
+        "lang": "uk",
+        "name": "UFDub",
         "baseUrl": "https://ufdub.com/anime",
         "versionId": 1
       }
@@ -4525,9 +4496,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Anime1",
-        "lang": "all",
-        "id": "7423768193628152540",
+        "id": "6462497517008461385",
+        "lang": "zh",
+        "name": "Anime1.me",
         "baseUrl": "",
         "versionId": 1
       }
@@ -4543,9 +4514,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "次元城动漫",
-        "lang": "zh",
         "id": "4928029692398241219",
+        "lang": "zh",
+        "name": "次元城动漫",
         "baseUrl": "https://www.cycani.org",
         "versionId": 1
       }
@@ -4561,9 +4532,9 @@
     "nsfw": 1,
     "sources": [
       {
-        "name": "Hanime1.me",
-        "lang": "zh",
         "id": "2853734405579058222",
+        "lang": "zh",
+        "name": "Hanime1.me",
         "baseUrl": "https://hanime1.me",
         "versionId": 1
       }
@@ -4579,9 +4550,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "Iyf",
-        "lang": "all",
-        "id": "6096722903455574635",
+        "id": "4444587307337180086",
+        "lang": "zh",
+        "name": "iyf",
         "baseUrl": "",
         "versionId": 1
       }
@@ -4597,9 +4568,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "3819746455898496679",
+        "lang": "zh",
         "name": "Nivod",
-        "lang": "all",
-        "id": "6948672710200919925",
         "baseUrl": "",
         "versionId": 1
       }
@@ -4615,9 +4586,9 @@
     "nsfw": 0,
     "sources": [
       {
-        "name": "span",
-        "lang": "all",
-        "id": "4218398690659136087",
+        "id": "3552399204875620426",
+        "lang": "zh",
+        "name": "Xfani",
         "baseUrl": "",
         "versionId": 1
       }
@@ -4633,9 +4604,9 @@
     "nsfw": 0,
     "sources": [
       {
+        "id": "2244257998008990468",
+        "lang": "zh",
         "name": "Xiaoxintv",
-        "lang": "all",
-        "id": "8710790968726482625",
         "baseUrl": "",
         "versionId": 1
       }
