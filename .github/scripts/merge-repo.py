@@ -12,6 +12,19 @@ LOCAL_REPO: Path = REMOTE_REPO.parent.joinpath(sys.argv[2])
 
 to_delete: list[str] = json.loads(sys.argv[1])
 
+with LOCAL_REPO.joinpath("index.min.json").open() as local_index_file:
+    local_index = json.load(local_index_file)
+
+# Only drop what this run replaced (a new build) or what no longer exists in the tree, so a
+# run that built less than it planned can never empty the published repo.
+NAMESPACE = "eu.kanade.tachiyomi.animeextension."
+SRC_DIR = LOCAL_REPO.parent.joinpath("src")
+rebuilt = {item["pkg"].removeprefix(NAMESPACE) for item in local_index}
+to_delete = [
+    module for module in to_delete
+    if module in rebuilt or not SRC_DIR.joinpath(*module.split(".", 1)).is_dir()
+]
+
 for module in to_delete:
     apk_name = f"aniyomi-{module}-v*.*.apk"
     icon_name = f"eu.kanade.tachiyomi.animeextension.{module}.png"
@@ -28,20 +41,15 @@ shutil.copytree(src=LOCAL_REPO.joinpath("icon"), dst=REMOTE_REPO.joinpath("icon"
 with REMOTE_REPO.joinpath("index.json").open() as remote_index_file:
     remote_index = json.load(remote_index_file)
 
-with LOCAL_REPO.joinpath("index.min.json").open() as local_index_file:
-    local_index = json.load(local_index_file)
-
 index = [
     item for item in remote_index
-    if not any(item["pkg"].endswith(f".{module}") for module in to_delete)
+    if item["pkg"].removeprefix(NAMESPACE) not in to_delete
 ]
 index.extend(local_index)
 index.sort(key=lambda x: x["pkg"])
 
 # Entries of extensions not rebuilt in this run are carried over as published. Re-read their
 # sources from the current tree so fixes to the inspector reach every entry, not only new builds.
-SRC_DIR = LOCAL_REPO.parent.joinpath("src")
-NAMESPACE = "eu.kanade.tachiyomi.animeextension."
 for item in index:
     apk_lang, _, module = item["pkg"].removeprefix(NAMESPACE).partition(".")
     module_dir = SRC_DIR.joinpath(apk_lang, module)
