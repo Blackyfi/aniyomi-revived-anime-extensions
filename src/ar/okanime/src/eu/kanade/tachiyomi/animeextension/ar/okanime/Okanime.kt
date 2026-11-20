@@ -32,7 +32,7 @@ class Okanime :
 
     override val name = "Okanime"
 
-    override val baseUrl = "https://www.okanime.xyz"
+    override val baseUrl = "https://ww3.okanime.xyz"
 
     override val lang = "ar"
 
@@ -41,28 +41,28 @@ class Okanime :
     private val preferences by getPreferencesLazy()
 
     // ============================== Popular ===============================
-    override fun popularAnimeRequest(page: Int) = GET(baseUrl)
+    override fun popularAnimeRequest(page: Int) = GET("$baseUrl/top-anime?page=$page")
 
-    override fun popularAnimeSelector() = "div.container > div.section:last-child div.anime-card"
+    override fun popularAnimeSelector() = "div.section-content div.anime-card"
 
     override fun popularAnimeFromElement(element: Element) = SAnime.create().apply {
         element.selectFirst("div.anime-title > h4 > a")!!.also {
             setUrlWithoutDomain(it.attr("href"))
             title = it.text()
         }
-        thumbnail_url = element.selectFirst("img")!!.attr("src")
+        thumbnail_url = element.selectFirst("img")!!.absUrl("src")
     }
 
-    override fun popularAnimeNextPageSelector() = null
+    override fun popularAnimeNextPageSelector() = "ul.pagination a[data-track-control=pagination_next]"
 
     // =============================== Latest ===============================
-    override fun latestUpdatesRequest(page: Int) = GET("$baseUrl/espisode-list?page=$page")
+    override fun latestUpdatesRequest(page: Int) = GET("$baseUrl/recently-uploaded-episodes?page=$page")
 
     override fun latestUpdatesSelector() = popularAnimeSelector()
 
     override fun latestUpdatesFromElement(element: Element) = popularAnimeFromElement(element)
 
-    override fun latestUpdatesNextPageSelector() = "ul.pagination > li:last-child:not(.disabled)"
+    override fun latestUpdatesNextPageSelector() = popularAnimeNextPageSelector()
 
     // =============================== Search ===============================
     override suspend fun getSearchAnime(page: Int, query: String, filters: AnimeFilterList): AnimesPage {
@@ -95,8 +95,11 @@ class Okanime :
         return AnimesPage(listOf(details), false)
     }
 
-    override fun searchAnimeRequest(page: Int, query: String, filters: AnimeFilterList) = "$baseUrl/search/?s=$query"
-        .let { if (page > 1) "$it&page=$page" else it }
+    override fun searchAnimeRequest(page: Int, query: String, filters: AnimeFilterList) = baseUrl.toHttpUrl().newBuilder()
+        .addPathSegment("anime-list")
+        .addQueryParameter("q", query)
+        .apply { if (page > 1) addQueryParameter("page", page.toString()) }
+        .build()
         .let(::GET)
 
     override fun searchAnimeSelector() = popularAnimeSelector()
@@ -108,58 +111,58 @@ class Okanime :
     // =========================== Anime Details ============================
     override fun animeDetailsParse(document: Document) = SAnime.create().apply {
         setUrlWithoutDomain(document.location())
-        title = document.selectFirst("div.author-info-title > h1")!!.text()
-        genre = document.select("div.review-author-info a").eachText().joinToString()
+        title = document.selectFirst("h1.animepage-h1")!!.text()
+        thumbnail_url = document.selectFirst("img.animepage-poster")?.absUrl("src")
+        genre = document.select("div.animepage-genres a").eachText().joinToString()
 
-        val infosdiv = document.selectFirst("div.text-right")!!
-        thumbnail_url = infosdiv.selectFirst("img")!!.attr("src")
-        status = infosdiv.selectFirst("div.full-list-info:contains(حالة الأنمي) a").let {
-            when (it?.text() ?: "") {
-                "يعرض الان" -> SAnime.ONGOING
-                "مكتمل" -> SAnime.COMPLETED
-                else -> SAnime.UNKNOWN
+        val metaRows = document.select("dl.animepage-meta div.animepage-meta-row")
+        status = metaRows.firstOrNull { it.selectFirst("dt")?.text() == "الحالة" }
+            ?.selectFirst("dd")
+            ?.text()
+            .let {
+                when (it) {
+                    "يعرض الآن", "يعرض الان" -> SAnime.ONGOING
+                    "مكتمل" -> SAnime.COMPLETED
+                    else -> SAnime.UNKNOWN
+                }
             }
-        }
         description = buildString {
-            document.selectFirst("div.review-content")
+            document.selectFirst("div.synopsis-text")
                 ?.text()
                 ?.let { append("$it\n") }
 
-            infosdiv.select("div.full-list-info").forEach { info ->
-                info.select("small")
-                    .eachText()
-                    .joinToString(": ")
-                    .let { append("\n$it") }
+            metaRows.forEach { row ->
+                val label = row.selectFirst("dt")?.text().orEmpty()
+                val value = row.selectFirst("dd")?.text().orEmpty()
+                if (label.isNotBlank() && value.isNotBlank()) append("\n$label: $value")
             }
         }
     }
 
     // ============================== Episodes ==============================
-    override fun episodeListSelector() = "div.row div.episode-card div.anime-title a"
+    override fun episodeListSelector() = "a.ep-compact-btn"
+
+    override fun episodeListParse(response: Response) = super.episodeListParse(response).reversed()
 
     override fun episodeFromElement(element: Element) = SEpisode.create().apply {
         setUrlWithoutDomain(element.attr("href"))
-        element.text().also {
-            name = it
-            episode_number = it.substringAfterLast(" ").toFloatOrNull() ?: 1F
-        }
+        name = element.attr("title").ifBlank { element.text() }
+        episode_number = element.attr("data-umami-event-episode_number").toFloatOrNull()
+            ?: element.text().toFloatOrNull()
+            ?: 1F
     }
 
     // ============================ Video Links =============================
     override fun videoListParse(response: Response): List<Video> {
         val hosterSelection = preferences.getStringSet(PREF_HOSTER_SELECTION_KEY, PREF_HOSTER_SELECTION_DEFAULT)!!
         return response.useAsJsoup()
-            .select("a.ep-link")
+            .select("#streamlinks a.ep-link[data-server]")
             .parallelCatchingFlatMapBlocking { element ->
-                val quality = element.selectFirst("span")?.text().orEmpty().let {
-                    when (it) {
-                        "HD" -> "720p"
-                        "FHD" -> "1080p"
-                        "SD" -> "480p"
-                        else -> "240p"
-                    }
-                }
-                val url = element.attr("data-src")
+                val url = SET_SERVER_REGEX.find(element.attr("@click"))
+                    ?.groupValues?.get(1)
+                    ?.replace("\\u0026", "&")
+                    ?: return@parallelCatchingFlatMapBlocking emptyList()
+                val quality = element.attr("data-umami-event-quality").ifBlank { "720p" }
                 extractVideosFromUrl(url, quality, hosterSelection)
             }
     }
@@ -243,6 +246,8 @@ class Okanime :
     // ============================= Utilities ==============================
     companion object {
         const val PREFIX_SEARCH = "id:"
+
+        private val SET_SERVER_REGEX = Regex("""setServer\('([^']+)'\)""")
 
         private val VID_BOM_DOMAINS = listOf("vidbam", "vadbam", "vidbom", "vidbm")
 

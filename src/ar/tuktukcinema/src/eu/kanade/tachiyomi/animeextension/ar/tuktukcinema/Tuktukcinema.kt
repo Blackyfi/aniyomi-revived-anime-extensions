@@ -44,7 +44,7 @@ class Tuktukcinema :
     private val preferences by getPreferencesLazy()
 
     override val baseUrl
-        get() = preferences.customDomain.ifBlank { "https://tuktukhd.com" }
+        get() = preferences.customDomain.ifBlank { "https://tuktukcinemas.com" }
 
     override val lang = "ar"
 

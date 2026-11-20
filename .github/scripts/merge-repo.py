@@ -4,6 +4,9 @@ import json
 from pathlib import Path
 import shutil
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import inspector  # noqa: E402
+
 REMOTE_REPO: Path = Path.cwd()
 LOCAL_REPO: Path = REMOTE_REPO.parent.joinpath(sys.argv[2])
 
@@ -34,6 +37,23 @@ index = [
 ]
 index.extend(local_index)
 index.sort(key=lambda x: x["pkg"])
+
+# Entries of extensions not rebuilt in this run are carried over as published. Re-read their
+# sources from the current tree so fixes to the inspector reach every entry, not only new builds.
+SRC_DIR = LOCAL_REPO.parent.joinpath("src")
+NAMESPACE = "eu.kanade.tachiyomi.animeextension."
+for item in index:
+    apk_lang, _, module = item["pkg"].removeprefix(NAMESPACE).partition(".")
+    module_dir = SRC_DIR.joinpath(apk_lang, module)
+    if not module_dir.is_dir():
+        continue
+    try:
+        sources = inspector.inspect_module(str(module_dir))
+    except Exception as e:  # best-effort metadata, never fail the publish
+        print(f"  inspect failed for {item['pkg']}: {e}")
+        continue
+    item["sources"] = sources
+    item["lang"] = inspector.index_lang(apk_lang, sources)
 
 with REMOTE_REPO.joinpath("index.json").open("w", encoding="utf-8") as index_file:
     json.dump(index, index_file, ensure_ascii=False, indent=2)
