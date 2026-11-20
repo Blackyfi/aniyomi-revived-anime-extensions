@@ -5,6 +5,8 @@ import subprocess
 from pathlib import Path
 from zipfile import ZipFile
 
+from inspector import index_lang
+
 PACKAGE_NAME_REGEX = re.compile(r"package: name='([^']+)'")
 VERSION_CODE_REGEX = re.compile(r"versionCode='([^']+)'")
 VERSION_NAME_REGEX = re.compile(r"versionName='([^']+)'")
@@ -45,18 +47,8 @@ for apk in REPO_APK_DIR.iterdir():
     ).open("wb") as f:
         f.write(i.read())
 
-    language = LANGUAGE_REGEX.search(apk.name)[1]
     sources = inspector_data[package_name]
-
-    if len(sources) == 1:
-        source_language = sources[0]["lang"]
-
-        if (
-            source_language != language
-            and source_language not in {"all", "other"}
-            and language not in {"all", "other"}
-        ):
-            language = source_language
+    language = index_lang(LANGUAGE_REGEX.search(apk.name)[1], sources)
 
     common_data = {
         "name": APPLICATION_LABEL_REGEX.search(badging)[1],
