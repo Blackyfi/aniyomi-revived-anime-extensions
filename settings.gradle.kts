@@ -22,6 +22,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // JitPack's NanoHTTPD build ships a POM that names another version, which Gradle
+        // rejects. The jar has no runtime dependencies, so take it without the POM.
+        maven(url = "https://www.jitpack.io") {
+            content { includeGroup("com.github.NanoHttpd.nanohttpd") }
+            metadataSources { artifact() }
+        }
         maven(url = "https://www.jitpack.io")
     }
 }
