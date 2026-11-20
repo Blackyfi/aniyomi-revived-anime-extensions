@@ -18,19 +18,16 @@ object Anime4UpFilters {
 
     internal class GenreFilter : QueryPartFilter("تصنيف الأنمي", Anime4UpFiltersData.GENRES)
     internal class TypeFilter : QueryPartFilter("نوع الأنمي", Anime4UpFiltersData.TYPES)
-    internal class StatusFilter : QueryPartFilter("حالة الأنمي", Anime4UpFiltersData.STATUS)
 
     val FILTER_LIST get() = AnimeFilterList(
         AnimeFilter.Header("الفلترات مش هتشتغل لو بتبحث او وهي فاضيه"),
         GenreFilter(),
         TypeFilter(),
-        StatusFilter(),
     )
 
     data class FilterSearchParams(
         val genre: String = "",
         val type: String = "",
-        val status: String = "",
     )
 
     internal fun getSearchParameters(filters: AnimeFilterList): FilterSearchParams {
@@ -39,7 +36,6 @@ object Anime4UpFilters {
         return FilterSearchParams(
             filters.asQueryPart<GenreFilter>(),
             filters.asQueryPart<TypeFilter>(),
-            filters.asQueryPart<StatusFilter>(),
         )
     }
 
@@ -96,13 +92,6 @@ object Anime4UpFilters {
             Pair("OVA", "ova1"),
             Pair("Special", "special1"),
             Pair("TV", "tv2"),
-        )
-
-        val STATUS = arrayOf(
-            ANY,
-            Pair("لم يعرض بعد", "%d9%84%d9%85-%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b9%d8%af"),
-            Pair("مكتمل", "complete"),
-            Pair("يعرض الان", "%d9%8a%d8%b9%d8%b1%d8%b6-%d8%a7%d9%84%d8%a7%d9%86-1"),
         )
     }
 }

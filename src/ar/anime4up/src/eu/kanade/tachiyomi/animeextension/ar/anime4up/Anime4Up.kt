@@ -1,6 +1,5 @@
 package eu.kanade.tachiyomi.animeextension.ar.anime4up
 
-import android.util.Base64
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceScreen
 import aniyomi.lib.doodextractor.DoodExtractor
@@ -11,6 +10,7 @@ import aniyomi.lib.streamwishextractor.StreamWishExtractor
 import aniyomi.lib.uqloadextractor.UqloadExtractor
 import aniyomi.lib.vidbomextractor.VidBomExtractor
 import aniyomi.lib.voeextractor.VoeExtractor
+import eu.kanade.tachiyomi.animeextension.ar.anime4up.extractors.Anime4UpPlayerExtractor
 import eu.kanade.tachiyomi.animeextension.ar.anime4up.extractors.SharedExtractor
 import eu.kanade.tachiyomi.animeextension.ar.anime4up.extractors.VidYardExtractor
 import eu.kanade.tachiyomi.animesource.ConfigurableAnimeSource
@@ -23,13 +23,10 @@ import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.utils.getPreferencesLazy
 import keiyoushi.utils.parallelCatchingFlatMapBlocking
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import uy.kohesive.injekt.injectLazy
 
 class Anime4Up :
     ParsedAnimeHttpSource(),
@@ -43,16 +40,14 @@ class Anime4Up :
 
     override val supportsLatest = false
 
-    private val json: Json by injectLazy()
-
     private val preferences by getPreferencesLazy()
 
     override fun headersBuilder() = super.headersBuilder().add("Referer", "$baseUrl/")
 
     // ============================== Popular ===============================
-    override fun popularAnimeRequest(page: Int) = GET("$baseUrl/anime-list-3/page/$page/")
+    override fun popularAnimeRequest(page: Int) = GET("$baseUrl/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A/page/$page/")
 
-    override fun popularAnimeSelector() = "div.anime-list-content div.anime-card-poster > div.hover"
+    override fun popularAnimeSelector() = "div.anime-grid div.anime-card-poster > div.hover"
 
     override fun popularAnimeFromElement(element: Element) = SAnime.create().apply {
         element.selectFirst("img")!!.run {
@@ -62,7 +57,7 @@ class Anime4Up :
         setUrlWithoutDomain(element.selectFirst("a")!!.attr("href"))
     }
 
-    override fun popularAnimeNextPageSelector() = "ul.pagination > li > a.next"
+    override fun popularAnimeNextPageSelector() = "a.next.page-numbers"
 
     // =============================== Latest ===============================
     override fun latestUpdatesRequest(page: Int) = throw UnsupportedOperationException()
@@ -82,10 +77,9 @@ class Anime4Up :
             val url = when {
                 genre.isNotBlank() -> "$baseUrl/anime-genre/$genre"
                 type.isNotBlank() -> "$baseUrl/anime-type/$type"
-                status.isNotBlank() -> "$baseUrl/anime-status/$status"
                 else -> throw Exception("اختر فلتر")
             }
-            GET(url, headers)
+            GET("${url.trimEnd('/')}/?page=$page", headers)
         }
     }
 
@@ -123,9 +117,19 @@ class Anime4Up :
     }
 
     // ============================== Episodes ==============================
-    override fun episodeListParse(response: Response) = super.episodeListParse(response).reversed()
+    override fun episodeListParse(response: Response): List<SEpisode> {
+        val episodes = mutableListOf<SEpisode>()
+        var document = response.asJsoup()
+        while (true) {
+            document.select(episodeListSelector()).mapTo(episodes, ::episodeFromElement)
+            val nextUrl = document.selectFirst("a.episodes-load-more")?.absUrl("href")
+            if (nextUrl.isNullOrEmpty()) break
+            document = client.newCall(GET(nextUrl, headers)).execute().use { it.asJsoup() }
+        }
+        return episodes.distinctBy { it.url }
+    }
 
-    override fun episodeListSelector() = "div.ehover6 > div.episodes-card-title > h3 > a, ul.all-episodes-list li > a"
+    override fun episodeListSelector() = "#episodesList div.ep_num > a"
 
     override fun episodeFromElement(element: Element) = SEpisode.create().apply {
         setUrlWithoutDomain(element.attr("href"))
@@ -133,58 +137,13 @@ class Anime4Up :
         episode_number = name.substringAfterLast(" ").toFloatOrNull() ?: 0F
     }
 
-    @Serializable
-    data class Qualities(
-        val fhd: Map<String, String> = emptyMap(),
-        val hd: Map<String, String> = emptyMap(),
-        val sd: Map<String, String> = emptyMap(),
-    )
+    override fun videoListParse(response: Response): List<Video> = response.asJsoup()
+        .select("#episode-servers li[data-watch]")
+        .map { it.attr("data-watch") }
+        .distinct()
+        .parallelCatchingFlatMapBlocking(::extractVideos)
 
-    @Serializable
-    data class WatchServerData(
-        val name: String,
-        val link: String,
-        val order: String,
-        val icon: Boolean,
-    )
-
-    override fun videoListParse(response: Response): List<Video> {
-        val document = response.asJsoup()
-
-        // Decode base64 for each quality level
-        val base64Fhd = document.selectFirst(".WatchServersEmbed form input[name='watch_fhd']")
-            ?.attr("value")
-            ?.let { String(Base64.decode(it, Base64.DEFAULT)) }
-            ?: "[]"
-
-        val base64Hd = document.selectFirst(".WatchServersEmbed form input[name='watch_hd']")
-            ?.attr("value")
-            ?.let { String(Base64.decode(it, Base64.DEFAULT)) }
-            ?: "[]"
-
-        val base64Sd = document.selectFirst(".WatchServersEmbed form input[name='watch_SD']")
-            ?.attr("value")
-            ?.let { String(Base64.decode(it, Base64.DEFAULT)) }
-            ?: "[]"
-
-        // Parse the base64 decoded strings into lists of WatchServerData
-        val parsedFhd = json.decodeFromString<List<WatchServerData>>(base64Fhd)
-        val parsedHd = json.decodeFromString<List<WatchServerData>>(base64Hd)
-        val parsedSd = json.decodeFromString<List<WatchServerData>>(base64Sd)
-
-        // Convert to the old Qualities structure
-        val qualities = Qualities(
-            fhd = parsedFhd.associate { it.name to it.link },
-            hd = parsedHd.associate { it.name to it.link },
-            sd = parsedSd.associate { it.name to it.link },
-        )
-
-        // Use the same logic as the old implementation
-        val streamLinks = with(qualities) { fhd + hd + sd }
-
-        return streamLinks.values.distinct().parallelCatchingFlatMapBlocking(::extractVideos)
-    }
-
+    private val playerExtractor by lazy { Anime4UpPlayerExtractor(client, headers) }
     private val uqloadExtractor by lazy { UqloadExtractor(client) }
     private val doodExtractor by lazy { DoodExtractor(client) }
     private val gdriveplayerExtractor by lazy { GdrivePlayerExtractor(client) }
@@ -197,6 +156,8 @@ class Anime4Up :
     private val voeExtractor by lazy { VoeExtractor(client, headers) }
 
     private suspend fun extractVideos(url: String): List<Video> = when {
+        PLAYER_REGEX.containsMatchIn(url) -> playerExtractor.videosFromUrl(url, "Anime4up ${PLAYER_REGEX.find(url)!!.groupValues[1]}")
+
         url.contains("drive.google") -> {
             val embedUrlG = "https://gdriveplayer.to/embed2.php?link=$url"
             gdriveplayerExtractor.videosFromUrl(embedUrlG, "GdrivePlayer", headers)
@@ -256,8 +217,9 @@ class Anime4Up :
     }
 
     companion object {
+        private val PLAYER_REGEX = Regex("/Anime4up-(S\\d+)/")
         private val VIDBOM_REGEX = Regex("(?:v[aie]d[bp][aoe]?m|myvii?d|segavid|v[aei]{1,2}dshar[er]?)\\.(?:com|net|org|xyz)(?::\\d+)?/(?:embed[/-])?([A-Za-z0-9]+)")
-        private val DOOD_REGEX = Regex("(do*d(?:stream)?\\.(?:com?|watch|to|s[ho]|cx|la|w[sf]|pm|re|yt|stream))/[de]/([0-9a-zA-Z]+)")
+        private val DOOD_REGEX = Regex("(do*d(?:stream)?\\.(?:com?|watch|to|s[ho]|cx|la|w[sf]|pm|re|yt|stream)|playmogo\\.com)/[de]/([0-9a-zA-Z]+)")
         private val STREAMWISH_REGEX = Regex("((?:streamwish|anime7u|animezd|ajmidyad|khadhnayad|yadmalik|hayaatieadhab)\\.(?:com|to|sbs))/(?:e/|v/|f/)?([0-9a-zA-Z]+)")
 
         private const val PREF_QUALITY_KEY = "preferred_quality"
