@@ -13,9 +13,11 @@ import eu.kanade.tachiyomi.animesource.model.Track
 import eu.kanade.tachiyomi.animesource.model.Video
 import eu.kanade.tachiyomi.animesource.online.ParsedAnimeHttpSource
 import eu.kanade.tachiyomi.network.GET
+import eu.kanade.tachiyomi.network.POST
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.utils.getPreferencesLazy
 import keiyoushi.utils.parallelCatchingFlatMapBlocking
+import okhttp3.FormBody
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import okhttp3.Response
@@ -28,7 +30,7 @@ class Cimaleek :
 
     override val name = "سيما ليك"
 
-    override val baseUrl = "https://m.cimaleek.to"
+    override val baseUrl = "https://web.cimalek.buzz"
 
     override val lang = "ar"
 
@@ -115,32 +117,21 @@ class Cimaleek :
 
     override fun videoListParse(response: Response): List<Video> {
         val document = response.asJsoup()
-        val script = document.selectFirst("script:containsData(dtAjax)")!!.data()
-        val version = script.substringAfter("ver\":\"").substringBefore("\"")
         return document.select(videoListSelector()).parallelCatchingFlatMapBlocking {
-            extractVideos(it, version)
+            extractVideos(it)
         }
     }
 
-    private fun generateRandomString(): String {
-        val characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        val result = StringBuilder(16)
-        for (i in 0 until 16) {
-            val randomIndex = (Math.random() * characters.length).toInt()
-            result.append(characters[randomIndex])
-        }
-        return result.toString()
-    }
-
-    private fun extractVideos(element: Element, version: String): List<Video> {
-        val videoUrl = "$baseUrl/wp-json/lalaplayer/v2/".toHttpUrl().newBuilder()
-        videoUrl.addQueryParameter("p", element.attr("data-post"))
-        videoUrl.addQueryParameter("t", element.attr("data-type"))
-        videoUrl.addQueryParameter("n", element.attr("data-nume"))
-        videoUrl.addQueryParameter("ver", version)
-        videoUrl.addQueryParameter("rand", generateRandomString())
-        val videoFrame = client.newCall(GET(videoUrl.toString(), headers)).execute().body.string()
-        val embedUrl = videoFrame.substringAfter("embed_url\":\"").substringBefore("\"")
+    // wp-json/lalaplayer returns an encrypted payload; admin-ajax gives plain embed_url
+    private fun extractVideos(element: Element): List<Video> {
+        val body = FormBody.Builder()
+            .add("action", "doo_player_ajax")
+            .add("post", element.attr("data-post"))
+            .add("nume", element.attr("data-nume"))
+            .add("type", element.attr("data-type"))
+            .build()
+        val videoFrame = client.newCall(POST("$baseUrl/wp-admin/admin-ajax.php", headers, body)).execute().body.string()
+        val embedUrl = videoFrame.substringAfter("embed_url\":\"").substringBefore("\"").replace("\\/", "/")
         val referer = headers.newBuilder().add("Referer", "$baseUrl/").build()
         val webViewResult = webViewResolver.getUrl(embedUrl, referer)
         return when {
