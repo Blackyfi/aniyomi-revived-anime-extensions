@@ -314,6 +314,8 @@ class WitAnime :
         url.contains("videa.hu") -> videaExtractor.videosFromUrl(url).map { Video(it.url, prefix + it.quality, it.videoUrl, it.headers) }
         HGCLOUD_REGEX.containsMatchIn(url) ->
             vidHideExtractor.videosFromUrl(HGCLOUD_REGEX.replace(url, HGCLOUD_MIRRORS.random())) { "${prefix}HGCloud: $it" }
+                // Its /stream/ playlist hides the segments in PNG files that mpv can't play.
+                .filterNot { it.videoUrl?.contains("/stream/") == true }
         url.contains("dood") -> doodExtractor.videoFromUrl(url, "${prefix}Dood")?.let(::listOf)
         url.contains("4shared") -> sharedExtractor.videosFromUrl(url)?.let(::listOf)
         url.contains("dailymotion") -> dailymotionExtractor.videosFromUrl(url, prefix)
