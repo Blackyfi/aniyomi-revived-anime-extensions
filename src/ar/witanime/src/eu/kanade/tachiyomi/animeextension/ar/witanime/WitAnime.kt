@@ -22,6 +22,7 @@ import eu.kanade.tachiyomi.animesource.ConfigurableAnimeSource
 import eu.kanade.tachiyomi.animesource.model.AnimeFilter
 import eu.kanade.tachiyomi.animesource.model.AnimeFilterList
 import eu.kanade.tachiyomi.animesource.model.AnimesPage
+import eu.kanade.tachiyomi.animesource.model.Hoster
 import eu.kanade.tachiyomi.animesource.model.SAnime
 import eu.kanade.tachiyomi.animesource.model.SEpisode
 import eu.kanade.tachiyomi.animesource.model.Video
@@ -33,10 +34,18 @@ import eu.kanade.tachiyomi.network.awaitSuccess
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.utils.getPreferencesLazy
 import keiyoushi.utils.parseAs
+import keiyoushi.utils.toJsonString
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.Serializable
 import okhttp3.Headers
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.nodes.Document
@@ -206,8 +215,35 @@ class WitAnime :
     // ============================ Video Links =============================
     // The watch page loads its servers with a POST to "<episode>/sources". Each server
     // has a token: POST /watch/stream-source/<token> unlocks it, then
-    // /watch/stream-gate/<token> leads to the host's embed page.
-    override suspend fun getVideoList(episode: SEpisode): List<Video> {
+    // /watch/stream-gate/<token> leads to the host's embed page. The site lets about one
+    // server through every few seconds, so a full list takes a while.
+
+    /**
+     * Hoster API (extensions-lib 16, called by apps that support it): return the servers
+     * right away, so the player starts on the first one that's ready and the rest fill in
+     * behind it. Hoster comes from the compile-only :lib:hosterstub; the app has the real one.
+     */
+    suspend fun getHosterList(episode: SEpisode): List<Hoster> = loadServers(episode).map { server ->
+        Hoster(
+            hosterUrl = server.pageUrl,
+            hosterName = server.name,
+            videoList = null,
+            internalData = server.toJsonString(),
+            lazy = false,
+        )
+    }
+
+    suspend fun getVideoList(hoster: Hoster): List<Video> = videosFrom(hoster.internalData.parseAs<ServerRef>())
+
+    /** For apps without hosters: every server, in one list. */
+    override suspend fun getVideoList(episode: SEpisode): List<Video> = coroutineScope {
+        loadServers(episode)
+            .map { server -> async { runCatching { videosFrom(server) }.getOrDefault(emptyList()) } }
+            .awaitAll()
+            .flatten()
+    }
+
+    private suspend fun loadServers(episode: SEpisode): List<ServerRef> {
         val pageUrl = baseUrl + episode.url
         val document = client.newCall(GET(pageUrl, headers)).awaitSuccess().asJsoup()
         val csrf = document.selectFirst("meta[name=csrf-token]")?.attr("content")
@@ -216,72 +252,96 @@ class WitAnime :
             ?.replace("\\/", "/")
             ?: "${episode.url}/sources"
 
-        val apiHeaders = headersBuilder()
-            .set("Referer", pageUrl)
-            .add("Origin", baseUrl)
-            .add("Accept", "application/json")
-            .add("X-CSRF-TOKEN", csrf)
-            // No Sec-Fetch-* here: the site answers 404 when a non-browser client sends them.
-            .build()
-
-        val manifest = call(POST(baseUrl + sourcesPath, apiHeaders))
+        val manifest = call(POST(baseUrl + sourcesPath, apiHeaders(pageUrl, csrf)))
             .parseAs<SourcesDto>()
 
-        val servers = manifest.players.flatMap { (quality, list) -> list.map { quality to it } }
+        return manifest.players.flatMap { (quality, list) -> list.map { quality to it } }
             .filter { (_, server) -> TOKEN_REGEX.matches(server.token) }
             // Every server costs two rate-limited requests, so skip hosts we can't play.
             .filterNot { (_, server) -> server.label?.lowercase() in UNSUPPORTED_SERVERS }
-
-        // The site rate limits its player endpoints, so resolve the servers one at a time.
-        val videos = mutableListOf<Video>()
-        for ((quality, server) in servers) {
-            val name = buildString {
-                append(server.label ?: "WitAnime")
-                append(" - ").append(quality)
-                if (server.version == "dub") append(" - مدبلج")
+            .map { (quality, server) ->
+                val name = buildString {
+                    append(server.label ?: "WitAnime")
+                    append(" - ").append(quality)
+                    if (server.version == "dub") append(" - مدبلج")
+                }
+                ServerRef(name, quality, server.label?.lowercase().orEmpty(), server.token, pageUrl, csrf)
             }
-            val found = runCatching {
-                val embedUrl = resolveServer(server.token, apiHeaders) ?: return@runCatching emptyList()
-                extractVideos(embedUrl, "$name: ")
-            }.getOrDefault(emptyList())
-            videos += found
-            delay(SERVER_DELAY_MS)
-        }
-        return videos
+            // Servers are resolved in this order, so put the likely winners first.
+            .sortedWith(
+                compareBy<ServerRef> { it.label in SLOW_SERVERS }
+                    .thenByDescending { QUALITY_LABELS[it.quality] == preferredQuality },
+            )
     }
 
-    /** Like awaitSuccess, but waits and retries once when the site answers 429. */
-    private suspend fun call(request: Request): Response {
-        val response = client.newCall(request).await()
-        if (response.code != 429) {
-            if (!response.isSuccessful) {
-                response.close()
-                throw IOException("HTTP error ${response.code} for ${request.url.encodedPath}")
-            }
-            return response
-        }
-        val waitSeconds = response.header("Retry-After")?.toLongOrNull()?.coerceIn(1, 10) ?: 3
-        response.close()
-        delay(waitSeconds * 1000)
-        return client.newCall(request).awaitSuccess()
+    private val preferredQuality get() = preferences.getString(PREF_QUALITY_KEY, PREF_QUALITY_DEFAULT)!!
+
+    private suspend fun videosFrom(server: ServerRef): List<Video> {
+        val embedUrl = resolveServer(server.token, apiHeaders(server.pageUrl, server.csrf))
+            ?: throw IOException("No player for ${server.name}")
+        // A slow host shouldn't hold things up forever. Not withTimeout: its exception is a
+        // CancellationException, which the app takes as "stop loading" instead of an error.
+        return withTimeoutOrNull(SERVER_TIMEOUT_MS) { extractVideos(embedUrl, "${server.name}: ") }
+            ?: throw IOException("${server.name} took too long")
     }
+
+    private fun apiHeaders(pageUrl: String, csrf: String) = headersBuilder()
+        .set("Referer", pageUrl)
+        .add("Origin", baseUrl)
+        .add("Accept", "application/json")
+        .add("X-CSRF-TOKEN", csrf)
+        // No Sec-Fetch-* here: the site answers 404 when a non-browser client sends them.
+        .build()
+
+    // stream-gate answers 429 to a second call within about a second, so space them out.
+    private val gateLock = Mutex()
+    private var lastGateAt = 0L
+
+    private suspend fun <T> paced(block: suspend () -> T): T = gateLock.withLock {
+        val wait = lastGateAt + GATE_SPACING_MS - System.currentTimeMillis()
+        if (wait > 0) delay(wait)
+        try {
+            block()
+        } finally {
+            lastGateAt = System.currentTimeMillis()
+        }
+    }
+
+    /**
+     * Like awaitSuccess, but rides out the site's burst limiter: stream-source refills about
+     * one call every 2.5s once its first few are used, and a 429 carries no Retry-After.
+     */
+    private suspend fun call(request: Request, httpClient: OkHttpClient = client): Response {
+        repeat(RATE_LIMIT_RETRIES) {
+            val response = httpClient.newCall(request).await()
+            if (response.code != 429) return response.ensureOk(request)
+            response.close()
+            delay(RATE_LIMIT_WAIT_MS)
+        }
+        return httpClient.newCall(request).await().ensureOk(request)
+    }
+
+    private fun Response.ensureOk(request: Request): Response {
+        if (!isSuccessful && !isRedirect) {
+            close()
+            throw IOException("HTTP error $code for ${request.url.encodedPath}")
+        }
+        return this
+    }
+
+    private val noRedirectClient by lazy { client.newBuilder().followRedirects(false).build() }
 
     private suspend fun resolveServer(token: String, apiHeaders: Headers): String? {
-        // The gate only opens after the player has asked for this source.
-        call(POST("$baseUrl/watch/stream-source/$token", apiHeaders)).close()
+        val gate = paced {
+            // The gate only opens after the player has asked for this source.
+            call(POST("$baseUrl/watch/stream-source/$token", apiHeaders)).close()
+            // Read the redirect instead of following it: the extractor loads the host page anyway.
+            call(GET("$baseUrl/watch/stream-gate/$token", gateHeaders()), noRedirectClient)
+        }
 
-        // The gate 404s when it gets a Referer or Sec-Fetch-* headers from us.
-        val gateHeaders = headersBuilder()
-            .removeAll("Referer")
-            .set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-            .add("Upgrade-Insecure-Requests", "1")
-            .build()
-
-        val gate = call(GET("$baseUrl/watch/stream-gate/$token", gateHeaders))
-        val finalUrl = gate.request.url
-        if (finalUrl.host != baseUrl.toHttpUrl().host) {
+        gate.header("Location")?.let { location ->
             gate.close()
-            return finalUrl.toString()
+            return gate.request.url.resolve(location)?.toString()
         }
 
         val document = gate.asJsoup()
@@ -291,6 +351,13 @@ class WitAnime :
             ?: document.selectFirst("source[src], video[src]")?.attr("abs:src")
             ?: GATE_URL_REGEX.find(document.html())?.groupValues?.get(1)
     }
+
+    // The gate 404s when it gets a Referer or Sec-Fetch-* headers from us.
+    private fun gateHeaders() = headersBuilder()
+        .removeAll("Referer")
+        .set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+        .add("Upgrade-Insecure-Requests", "1")
+        .build()
 
     private val soraPlayExtractor by lazy { SoraPlayExtractor(client) }
     private val doodExtractor by lazy { DoodExtractor(client) }
@@ -388,6 +455,16 @@ class WitAnime :
         val lang: String? = null,
     )
 
+    @Serializable
+    class ServerRef(
+        val name: String,
+        val quality: String,
+        val label: String,
+        val token: String,
+        val pageUrl: String,
+        val csrf: String,
+    )
+
     companion object {
         private val SOURCES_URL_REGEX = Regex("""sourcesUrl:\s*'([^']+)'""")
         private val TOKEN_REGEX = Regex("^[a-f0-9]{64}$")
@@ -405,7 +482,14 @@ class WitAnime :
         private val VIDHIDE_REGEX = Regex("vidhide|filelions|vid-guard|dhtpre|dlions|mivalyo")
 
         private const val MOVIES_PAGE_SIZE = 18
-        private const val SERVER_DELAY_MS = 600L
+        private const val GATE_SPACING_MS = 1_200L
+        private const val SERVER_TIMEOUT_MS = 10_000L
+        private val QUALITY_LABELS = mapOf("FHD" to "1080", "HD" to "720", "SD" to "480")
+
+        // Broken or slow on their side; still offered, but tried last.
+        private val SLOW_SERVERS = setOf("yonaplay")
+        private const val RATE_LIMIT_RETRIES = 2
+        private const val RATE_LIMIT_WAIT_MS = 2_500L
 
         private const val PREF_QUALITY_KEY = "preferred_quality"
         private const val PREF_QUALITY_TITLE = "Preferred quality"
