@@ -30,7 +30,6 @@ import eu.kanade.tachiyomi.animesource.online.AnimeHttpSource
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.network.POST
 import eu.kanade.tachiyomi.network.await
-import eu.kanade.tachiyomi.network.awaitSuccess
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.utils.getPreferencesLazy
 import keiyoushi.utils.parseAs
@@ -223,29 +222,56 @@ class WitAnime :
      * right away, so the player starts on the first one that's ready and the rest fill in
      * behind it. Hoster comes from the compile-only :lib:hosterstub; the app has the real one.
      */
-    suspend fun getHosterList(episode: SEpisode): List<Hoster> = loadServers(episode).map { server ->
-        Hoster(
-            hosterUrl = server.pageUrl,
-            hosterName = server.name,
-            videoList = null,
-            internalData = server.toJsonString(),
-            lazy = false,
-        )
+    suspend fun getHosterList(episode: SEpisode): List<Hoster> {
+        val servers = cachedServers(episode)
+        // Each server costs the site's tight rate limit two calls, so only the best few load
+        // up front (different hosts, in case one is down). The rest load when tapped.
+        val eager = servers.distinctBy { it.label }.take(EAGER_SERVERS).toSet()
+        return servers.map { server ->
+            Hoster(
+                hosterUrl = server.pageUrl,
+                hosterName = server.name,
+                videoList = null,
+                internalData = server.toJsonString(),
+                lazy = server !in eager,
+            )
+        }
     }
 
     suspend fun getVideoList(hoster: Hoster): List<Video> = videosFrom(hoster.internalData.parseAs<ServerRef>())
 
     /** For apps without hosters: every server, in one list. */
     override suspend fun getVideoList(episode: SEpisode): List<Video> = coroutineScope {
-        loadServers(episode)
+        cachedServers(episode)
             .map { server -> async { runCatching { videosFrom(server) }.getOrDefault(emptyList()) } }
             .awaitAll()
             .flatten()
     }
 
+    // Reopening an episode shouldn't cost site calls again: keep its servers, and the embed
+    // page each one led to, for a while. The video hosts themselves aren't rate limited.
+    private val serverCache = mutableMapOf<String, Pair<Long, List<ServerRef>>>()
+    private val embedCache = mutableMapOf<String, Pair<Long, String>>()
+
+    private fun <T> MutableMap<String, Pair<Long, T>>.fresh(key: String): T? = synchronized(this) {
+        get(key)?.takeIf { System.currentTimeMillis() - it.first < CACHE_MS }?.second
+    }
+
+    private fun <T> MutableMap<String, Pair<Long, T>>.store(key: String, value: T) = synchronized(this) {
+        val now = System.currentTimeMillis()
+        entries.removeAll { now - it.value.first >= CACHE_MS }
+        put(key, now to value)
+    }
+
+    private suspend fun cachedServers(episode: SEpisode): List<ServerRef> = serverCache.fresh(episode.url)
+        ?: loadServers(episode).also { if (it.isNotEmpty()) serverCache.store(episode.url, it) }
+
     private suspend fun loadServers(episode: SEpisode): List<ServerRef> {
         val pageUrl = baseUrl + episode.url
-        val document = client.newCall(GET(pageUrl, headers)).awaitSuccess().asJsoup()
+        // No 429 retries here: the watch pages sit behind a slower window, and every retry
+        // only keeps it shut longer.
+        val request = GET(pageUrl, headers)
+        val document = client.newCall(request).await().ensureOk(request).asJsoup()
         val csrf = document.selectFirst("meta[name=csrf-token]")?.attr("content")
             ?: return emptyList()
         val sourcesPath = SOURCES_URL_REGEX.find(document.html())?.groupValues?.get(1)
@@ -277,7 +303,9 @@ class WitAnime :
     private val preferredQuality get() = preferences.getString(PREF_QUALITY_KEY, PREF_QUALITY_DEFAULT)!!
 
     private suspend fun videosFrom(server: ServerRef): List<Video> {
-        val embedUrl = resolveServer(server.token, apiHeaders(server.pageUrl, server.csrf))
+        val embedUrl = embedCache.fresh(server.token)
+            ?: resolveServer(server.token, apiHeaders(server.pageUrl, server.csrf))
+                ?.also { embedCache.store(server.token, it) }
             ?: throw IOException("No player for ${server.name}")
         // A slow host shouldn't hold things up forever. Not withTimeout: its exception is a
         // CancellationException, which the app takes as "stop loading" instead of an error.
@@ -322,6 +350,10 @@ class WitAnime :
     }
 
     private fun Response.ensureOk(request: Request): Response {
+        if (code == 429) {
+            close()
+            throw IOException("WitAnime is limiting requests from your connection, try again in a minute")
+        }
         if (!isSuccessful && !isRedirect) {
             close()
             throw IOException("HTTP error $code for ${request.url.encodedPath}")
@@ -484,6 +516,8 @@ class WitAnime :
         private const val MOVIES_PAGE_SIZE = 18
         private const val GATE_SPACING_MS = 1_200L
         private const val SERVER_TIMEOUT_MS = 10_000L
+        private const val EAGER_SERVERS = 2
+        private const val CACHE_MS = 15 * 60 * 1000L
         private val QUALITY_LABELS = mapOf("FHD" to "1080", "HD" to "720", "SD" to "480")
 
         // Broken or slow on their side; still offered, but tried last.
