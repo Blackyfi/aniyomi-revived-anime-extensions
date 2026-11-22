@@ -1,7 +1,7 @@
 ext {
     extName = 'WIT ANIME'
     extClass = '.WitAnime'
-    extVersionCode = 64
+    extVersionCode = 65
 }
 
 apply plugin: "kei.plugins.extension.legacy"
@@ -20,4 +20,6 @@ dependencies {
     implementation(project(':lib:vidhideextractor'))
     implementation(project(':lib:vkextractor'))
     implementation(project(':lib:voeextractor'))
+    // Never implementation: the app provides the real class at runtime.
+    compileOnly(project(':lib:hosterstub'))
 }
