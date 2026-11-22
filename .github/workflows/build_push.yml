@@ -1,8 +1,8 @@
 name: CI
 
-# Build -> sign (reused key) -> static-inspect -> index -> publish to this repo's `repo` branch.
+# Build -> sign -> static-inspect -> index -> publish to this repo's `repo` branch.
 # Self-contained: no cross-repo publish, no prebuilt Inspector.jar (build-from-source only,
-# matching the trust model). Signing uses the SAME key as aniyomi-revived-extensions (manga);
+# matching the trust model). Signing uses this repo's own key;
 # its cert SHA-256 fingerprint is pinned in repo.json.template.
 
 on:
@@ -113,7 +113,7 @@ jobs:
         with:
           cache-read-only: ${{ matrix.chunk.number > 1 }}
 
-      # ---- Reconstruct the signing keystore (SAME key as the manga repo) ----
+      # ---- Reconstruct the signing keystore from the CI secret ----
       # signingkey.jks is the path PluginExtensionLegacy.kt expects at the repo root.
       - name: Prepare signing key
         env:
@@ -217,7 +217,7 @@ jobs:
           mkdir -p apk icon
           # Merge this run's freshly built APKs/index into the persistent repo tree.
           python ../master/.github/scripts/merge-repo.py "$DELETE" 'master/repo'
-          # Pin the signing fingerprint (reused key) so installs are trusted.
+          # Pin the signing fingerprint so installs are trusted.
           cp ../master/repo.json.template repo.json
           git add -A
           if git diff --cached --quiet; then

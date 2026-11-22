@@ -2,8 +2,7 @@
 
 This repo is the **anime** counterpart of
 [`aniyomi-revived-extensions`](https://github.com/Blackyfi/aniyomi-revived-extensions) (manga).
-It **reuses the same signing key**, so the cert SHA-256 fingerprint is identical and already
-pinned in [`repo.json.template`](repo.json.template):
+It has **its own signing key**. The cert SHA-256 fingerprint is pinned in [`repo.json.template`](repo.json.template):
 
 ```
 056bf4bb4e227e93ca738622c1bf96ba3fa75e568a04d396c2aabd3d4bb26fb8
@@ -19,29 +18,26 @@ so **only what this key signs can load**. The key lives only in CI secrets; the 
 fingerprint lives in `repo.json` for users to verify.
 
 The CI (`.github/workflows/build_push.yml`) is **build-from-source only**: it builds each
-extension, signs with the reused key, derives `sources[]` with the in-repo static inspector
+extension, signs with this repo's key, derives `sources[]` with the in-repo static inspector
 (`.github/scripts/inspector.py` — **no** prebuilt `Inspector.jar`), generates
 `index.min.json` + `repo.json`, and publishes to this repo's `repo` branch.
 
-## One-time: set the four CI secrets (reusing your offline `ci.keystore`)
+## One-time: set the four CI secrets
 
-These cannot be copied from the manga repo (GitHub secrets are write-only). Run on the machine
-that holds your offline `ci.keystore` (alias `signing`), authenticated as the repo owner:
+Run on the machine that holds the offline keystore (alias `anime`), authenticated as the repo owner:
 
 ```bash
 R=Blackyfi/aniyomi-revived-anime-extensions
 
 # Keystore, base64-encoded (the build decodes it back to signingkey.jks):
-base64 -w0 ci.keystore | gh secret set SIGNING_KEY -R "$R"      # macOS: base64 -i ci.keystore | ...
+base64 -w0 signing.jks | gh secret set SIGNING_KEY -R "$R"      # macOS: base64 -i signing.jks | ...
 
-gh secret set ALIAS              -R "$R" --body 'signing'
-gh secret set KEY_STORE_PASSWORD -R "$R"   # paste the manga keystore password when prompted
-gh secret set KEY_PASSWORD       -R "$R"   # paste the manga key password when prompted
+gh secret set ALIAS              -R "$R" --body 'anime'
+gh secret set KEY_STORE_PASSWORD -R "$R"   # paste the keystore password when prompted
+gh secret set KEY_PASSWORD       -R "$R"   # paste the key password when prompted
 ```
 
-> Secret names differ from the manga repo (`SIGNING_KEY`/`ALIAS`/`KEY_STORE_PASSWORD`/`KEY_PASSWORD`
-> vs `SIGNING_KEYSTORE_B64`/`SIGNING_KEY_ALIAS`/...). The **values are the same** — the names are
-> what this repo's build-logic (`PluginExtensionLegacy.kt`) and workflow read.
+> These names are what this repo's build-logic (`PluginExtensionLegacy.kt`) and workflow read.
 
 ### Optional per-source API secrets
 
