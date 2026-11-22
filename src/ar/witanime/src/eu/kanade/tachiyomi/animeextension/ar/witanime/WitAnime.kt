@@ -17,6 +17,7 @@ import aniyomi.lib.vkextractor.VkExtractor
 import aniyomi.lib.voeextractor.VoeExtractor
 import eu.kanade.tachiyomi.animeextension.ar.witanime.extractors.SharedExtractor
 import eu.kanade.tachiyomi.animeextension.ar.witanime.extractors.SoraPlayExtractor
+import eu.kanade.tachiyomi.animeextension.ar.witanime.extractors.VideaExtractor
 import eu.kanade.tachiyomi.animesource.ConfigurableAnimeSource
 import eu.kanade.tachiyomi.animesource.model.AnimeFilter
 import eu.kanade.tachiyomi.animesource.model.AnimeFilterList
@@ -27,17 +28,20 @@ import eu.kanade.tachiyomi.animesource.model.Video
 import eu.kanade.tachiyomi.animesource.online.AnimeHttpSource
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.network.POST
+import eu.kanade.tachiyomi.network.await
 import eu.kanade.tachiyomi.network.awaitSuccess
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.utils.getPreferencesLazy
-import keiyoushi.utils.parallelCatchingFlatMap
 import keiyoushi.utils.parseAs
+import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 import okhttp3.Headers
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import java.io.IOException
 
 class WitAnime :
     AnimeHttpSource(),
@@ -51,7 +55,13 @@ class WitAnime :
 
     override val supportsLatest = true
 
-    override fun headersBuilder() = super.headersBuilder().add("Referer", "$baseUrl/")
+    // The site answers its player endpoints with 404 unless the request carries the client
+    // hints a browser sends.
+    override fun headersBuilder() = super.headersBuilder()
+        .add("Referer", "$baseUrl/")
+        .add("sec-ch-ua", "\"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"")
+        .add("sec-ch-ua-mobile", "?0")
+        .add("sec-ch-ua-platform", "\"Windows\"")
 
     private val preferences by getPreferencesLazy()
 
@@ -211,35 +221,63 @@ class WitAnime :
             .add("Origin", baseUrl)
             .add("Accept", "application/json")
             .add("X-CSRF-TOKEN", csrf)
+            // No Sec-Fetch-* here: the site answers 404 when a non-browser client sends them.
             .build()
 
-        val manifest = client.newCall(POST(baseUrl + sourcesPath, apiHeaders)).awaitSuccess()
+        val manifest = call(POST(baseUrl + sourcesPath, apiHeaders))
             .parseAs<SourcesDto>()
 
         val servers = manifest.players.flatMap { (quality, list) -> list.map { quality to it } }
             .filter { (_, server) -> TOKEN_REGEX.matches(server.token) }
+            // Every server costs two rate-limited requests, so skip hosts we can't play.
+            .filterNot { (_, server) -> server.label?.lowercase() in UNSUPPORTED_SERVERS }
 
-        return servers.parallelCatchingFlatMap { (quality, server) ->
+        // The site rate limits its player endpoints, so resolve the servers one at a time.
+        val videos = mutableListOf<Video>()
+        for ((quality, server) in servers) {
             val name = buildString {
                 append(server.label ?: "WitAnime")
                 append(" - ").append(quality)
                 if (server.version == "dub") append(" - مدبلج")
             }
-            val embedUrl = resolveServer(server.token, apiHeaders) ?: return@parallelCatchingFlatMap emptyList()
-            extractVideos(embedUrl, "$name: ")
+            val found = runCatching {
+                val embedUrl = resolveServer(server.token, apiHeaders) ?: return@runCatching emptyList()
+                extractVideos(embedUrl, "$name: ")
+            }.getOrDefault(emptyList())
+            videos += found
+            delay(SERVER_DELAY_MS)
         }
+        return videos
+    }
+
+    /** Like awaitSuccess, but waits and retries once when the site answers 429. */
+    private suspend fun call(request: Request): Response {
+        val response = client.newCall(request).await()
+        if (response.code != 429) {
+            if (!response.isSuccessful) {
+                response.close()
+                throw IOException("HTTP error ${response.code} for ${request.url.encodedPath}")
+            }
+            return response
+        }
+        val waitSeconds = response.header("Retry-After")?.toLongOrNull()?.coerceIn(1, 10) ?: 3
+        response.close()
+        delay(waitSeconds * 1000)
+        return client.newCall(request).awaitSuccess()
     }
 
     private suspend fun resolveServer(token: String, apiHeaders: Headers): String? {
-        val source = client.newCall(POST("$baseUrl/watch/stream-source/$token", apiHeaders)).awaitSuccess()
-            .parseAs<StreamSourceDto>()
+        // The gate only opens after the player has asked for this source.
+        call(POST("$baseUrl/watch/stream-source/$token", apiHeaders)).close()
 
-        val gateHeaders = headersBuilder().apply {
-            if (source.referrerPolicy == "origin") set("Referer", "$baseUrl/") else removeAll("Referer")
-            add("Sec-Fetch-Dest", "iframe")
-        }.build()
+        // The gate 404s when it gets a Referer or Sec-Fetch-* headers from us.
+        val gateHeaders = headersBuilder()
+            .removeAll("Referer")
+            .set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+            .add("Upgrade-Insecure-Requests", "1")
+            .build()
 
-        val gate = client.newCall(GET("$baseUrl/watch/stream-gate/$token", gateHeaders)).awaitSuccess()
+        val gate = call(GET("$baseUrl/watch/stream-gate/$token", gateHeaders))
         val finalUrl = gate.request.url
         if (finalUrl.host != baseUrl.toHttpUrl().host) {
             gate.close()
@@ -269,9 +307,13 @@ class WitAnime :
     private val streamTapeExtractor by lazy { StreamTapeExtractor(client) }
     private val uqloadExtractor by lazy { UqloadExtractor(client) }
     private val vkExtractor by lazy { VkExtractor(client, headers) }
+    private val videaExtractor by lazy { VideaExtractor(client) }
 
     private suspend fun extractVideos(url: String, prefix: String): List<Video> = when {
-        url.contains("soraplay") -> soraPlayExtractor.videosFromUrl(url, headers)
+        url.contains("soraplay") || url.contains("yonaplay") -> soraPlayExtractor.videosFromUrl(url, headers)
+        url.contains("videa.hu") -> videaExtractor.videosFromUrl(url).map { Video(it.url, prefix + it.quality, it.videoUrl, it.headers) }
+        HGCLOUD_REGEX.containsMatchIn(url) ->
+            vidHideExtractor.videosFromUrl(HGCLOUD_REGEX.replace(url, HGCLOUD_MIRRORS.random())) { "${prefix}HGCloud: $it" }
         url.contains("dood") -> doodExtractor.videoFromUrl(url, "${prefix}Dood")?.let(::listOf)
         url.contains("4shared") -> sharedExtractor.videosFromUrl(url)?.let(::listOf)
         url.contains("dailymotion") -> dailymotionExtractor.videosFromUrl(url, prefix)
@@ -344,9 +386,6 @@ class WitAnime :
         val lang: String? = null,
     )
 
-    @Serializable
-    class StreamSourceDto(val referrerPolicy: String? = null)
-
     companion object {
         private val SOURCES_URL_REGEX = Regex("""sourcesUrl:\s*'([^']+)'""")
         private val TOKEN_REGEX = Regex("^[a-f0-9]{64}$")
@@ -355,9 +394,16 @@ class WitAnime :
         private val VIDBOM_REGEX = Regex("//v[aie]d[bp][aoe]?m")
         private val STREAMWISH_REGEX = Regex("streamwish|wishfast|swdyu|sfastwish|strwish|wishembed|hgplaycdn|playerwish")
         private val FILEMOON_REGEX = Regex("filemoon|moonplayer|kerapoxy|smdfs")
+
+        // hgcloud.to only serves a script that sends the browser on to one of these mirrors.
+        private val HGCLOUD_REGEX = Regex("""(?<=//)(?:www\.)?(?:hgcloud\.to|hglink\.to)""")
+        private val HGCLOUD_MIRRORS = listOf("hanerix.com", "vibuxer.com", "audinifer.com")
+        private val UNSUPPORTED_SERVERS = setOf("mega", "videas")
+
         private val VIDHIDE_REGEX = Regex("vidhide|filelions|vid-guard|dhtpre|dlions|mivalyo")
 
         private const val MOVIES_PAGE_SIZE = 18
+        private const val SERVER_DELAY_MS = 600L
 
         private const val PREF_QUALITY_KEY = "preferred_quality"
         private const val PREF_QUALITY_TITLE = "Preferred quality"
