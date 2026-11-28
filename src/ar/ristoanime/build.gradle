@@ -1,0 +1,18 @@
+ext {
+    extName = 'RistoAnime'
+    extClass = '.RistoAnime'
+    extVersionCode = 1
+}
+
+apply plugin: "kei.plugins.extension.legacy"
+
+dependencies {
+    implementation(project(':lib:mp4uploadextractor'))
+    implementation(project(':lib:sendvidextractor'))
+    implementation(project(':lib:sibnetextractor'))
+    implementation(project(':lib:streamwishextractor'))
+    implementation(project(':lib:uqloadextractor'))
+    implementation(project(':lib:vidguardextractor'))
+    implementation(project(':lib:vidmolyextractor'))
+    implementation(project(':lib:voeextractor'))
+}

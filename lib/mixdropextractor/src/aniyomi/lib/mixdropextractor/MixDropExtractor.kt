@@ -4,6 +4,7 @@ import eu.kanade.tachiyomi.animesource.model.Track
 import eu.kanade.tachiyomi.animesource.model.Video
 import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.util.asJsoup
+import keiyoushi.lib.jsunpacker.JsUnpacker
 import keiyoushi.lib.unpacker.Unpacker
 import okhttp3.Headers
 import okhttp3.OkHttpClient
@@ -24,9 +25,12 @@ class MixDropExtractor(private val client: OkHttpClient) {
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
         )
         val doc = client.newCall(GET(url, headers)).execute().asJsoup()
-        val unpacked = doc.selectFirst("script:containsData(eval):containsData(MDCore)")
+        val script = doc.selectFirst("script:containsData(eval):containsData(MDCore)")
             ?.data()
-            ?.let(Unpacker::unpack)
+            ?: return emptyList()
+        // Unpacker leaves some keys undecoded on newer pages (MDCore.21= instead of MDCore.wurl=).
+        val unpacked = listOfNotNull(JsUnpacker.unpackAndCombine(script), Unpacker.unpack(script))
+            .firstOrNull { "Core.wurl=\"" in it }
             ?: return emptyList()
 
         val videoUrl = "https:" + unpacked.substringAfter("Core.wurl=\"")
