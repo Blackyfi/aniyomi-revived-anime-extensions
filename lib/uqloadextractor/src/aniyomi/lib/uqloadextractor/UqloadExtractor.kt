@@ -11,7 +11,8 @@ import okhttp3.OkHttpClient
 class UqloadExtractor(private val client: OkHttpClient) {
 
     companion object {
-        const val BASE_URL = "https://uqload.is/"
+        // Every other uqload domain redirects here, and some ISPs block the old ones.
+        const val BASE_URL = "https://uqload.vc/"
 
         private val hostRegex by lazy { Regex("""https?://(?:www\.)?[^/]+/""") }
 
